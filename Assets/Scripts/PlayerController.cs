@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerController : Actor
 {
 	public GameObject[] Projectiles;
+	public int[] Ammo = {100, -1, -1};
+	public Text[] AmmoText;
+
 	public int CurrentWeapon = 0;
 	public float fireRate;
 
@@ -36,6 +40,9 @@ public class PlayerController : Actor
 		UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
 
 		RigidBody.velocity = moveVector;
+
+		AmmoText [0].text = (Ammo [0]).ToString ();
+
 	}
 
 	void ProccesInput (ref Vector2 moveVector)
@@ -62,8 +69,9 @@ public class PlayerController : Actor
 		}
 
 		if (Input.GetKey (KeyCode.Space)) {
-			if (Time.time > nextFire) {
+			if (Time.time > nextFire && Ammo [CurrentWeapon] > 0) {
 				FireProjectile ();
+				Ammo [CurrentWeapon]--;
 				nextFire = Time.time + fireRate;
 			}
 		}
