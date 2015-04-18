@@ -51,7 +51,6 @@ public class Actor : MonoBehaviour
 
 	protected void ResolveNPCCollision (Collision2D coll)
 	{
-		Debug.Log (gameObject.name + " in collision, direction: " + MyDirection);
 		Direction newDirection = MyDirection;
 		bool hitWall = true;
 		
@@ -84,16 +83,12 @@ public class Actor : MonoBehaviour
 				foreach (RaycastHit2D item in hit) {
 					if (item.collider.gameObject != this.gameObject) {
 						hitWall = true;
-						Debug.Log (item.collider.name);
 					}
-				}
-				if (hitWall)
-					Debug.Log ("Rejecting " + newDirection);				
+				}				
 			}
 		}
 
 		MyDirection = newDirection;
-		Debug.Log ("Going " + MyDirection);
 	}
 
 	protected Direction GetOppositeDirection (Direction oldDirection)
@@ -126,5 +121,46 @@ public class Actor : MonoBehaviour
 		newCommie.MyDirection = this.MyDirection;
 		newCommie.StartVelocity = this.RigidBody.velocity;
 		Destroy (this.gameObject);
+	}
+
+	public void BecomeCivilian ()
+	{
+		GameObject newCivilianObject = (GameObject)Instantiate (CivilianPrefab, transform.position, Quaternion.identity);
+		Civilian newCivilian = newCivilianObject.GetComponent<Civilian> ();
+		newCivilian.MyDirection = this.MyDirection;
+		newCivilian.StartVelocity = this.RigidBody.velocity;
+		Destroy (this.gameObject);
+	}
+
+	protected void FireProjectile (GameObject projectile)
+	{
+		Vector2 projectileVelocity = new Vector2 ();
+		
+		GameObject newProjectileObject = (GameObject)Instantiate (projectile, RigidBody.position, 
+		                                                          Quaternion.identity);
+		Projectile newProjectile = newProjectileObject.GetComponent<Projectile> ();
+		
+		if (RigidBody.velocity.magnitude > 0) {
+			projectileVelocity = RigidBody.velocity.normalized;
+		} else {
+			switch (MyDirection) {
+			case Direction.NORTH:
+				projectileVelocity = Vector2.up;
+				break;
+			case Direction.EAST:
+				projectileVelocity = Vector2.right;
+				break;
+			case Direction.SOUTH:
+				projectileVelocity = -Vector2.up;
+				break;
+			case Direction.WEST:
+				projectileVelocity = -Vector2.right;
+				break;
+			}
+		}
+
+		projectileVelocity *= newProjectile.FireVelocity;
+		Debug.Log (projectileVelocity);
+		newProjectile.StartVelocity = projectileVelocity;
 	}
 }

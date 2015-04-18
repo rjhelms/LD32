@@ -8,9 +8,8 @@ public class PlayerController : Actor
 	public GameObject[] Projectiles;
 	public int[] Ammo = {100, -1, -1};
 	public Text[] AmmoText;
-
 	public int CurrentWeapon = 0;
-	public float fireRate;
+	public float FireRate;
 
 	private float nextFire;
 
@@ -73,9 +72,9 @@ public class PlayerController : Actor
 
 		if (Input.GetKey (KeyCode.Space)) {
 			if (Time.time > nextFire && Ammo [CurrentWeapon] > 0) {
-				FireProjectile ();
+				FireProjectile (Projectiles [CurrentWeapon]);
 				Ammo [CurrentWeapon]--;
-				nextFire = Time.time + fireRate;
+				nextFire = Time.time + FireRate;
 			}
 		}
 
@@ -86,37 +85,5 @@ public class PlayerController : Actor
 		if (Input.GetKey (KeyCode.Alpha2) && Ammo [1] > 0) {
 			CurrentWeapon = 1;
 		}
-	}
-
-	void FireProjectile ()
-	{
-		Vector2 projectileVelocity = new Vector2 ();
-
-		GameObject newProjectileObject = (GameObject)Instantiate (Projectiles [CurrentWeapon], RigidBody.position, 
-		                                                          Quaternion.identity);
-		Projectile newProjectile = newProjectileObject.GetComponent<Projectile> ();
-
-		if (RigidBody.velocity.magnitude > 0) {
-			projectileVelocity = RigidBody.velocity.normalized;
-		} else {
-			switch (MyDirection) {
-			case Direction.NORTH:
-				projectileVelocity = Vector2.up;
-				break;
-			case Direction.EAST:
-				projectileVelocity = Vector2.right;
-				break;
-			case Direction.SOUTH:
-				projectileVelocity = -Vector2.up;
-				break;
-			case Direction.WEST:
-				projectileVelocity = -Vector2.right;
-				break;
-			}
-		}
-
-		projectileVelocity *= newProjectile.FireVelocity;
-		Debug.Log (projectileVelocity);
-		newProjectile.StartVelocity = projectileVelocity;
 	}
 }

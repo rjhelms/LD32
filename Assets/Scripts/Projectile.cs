@@ -35,18 +35,32 @@ public class Projectile : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D coll)
 	{
-		if (coll.gameObject.layer != LayerMask.NameToLayer ("Player") 
-			&& coll.gameObject.layer != LayerMask.NameToLayer ("Projectile")) {
+		bool validHit = false;
+
+		if (coll.gameObject.layer == LayerMask.NameToLayer ("Projectile")) {
+			validHit = false;
+		} else if ((Type == WeaponType.MONEY || Type == WeaponType.LEAFLET) 
+			&& coll.gameObject.layer != LayerMask.NameToLayer ("Player")) {
+			validHit = true;
+		} else if (Type == WeaponType.ENEMY_MONEY && coll.GetComponent<Commie> () != null) {
+			validHit = true;
+		}
+
+		if (validHit) {
 			if ((TargetMask.value & 1 << coll.gameObject.layer) > 0) {
 				Debug.Log ("Target hit: " + coll.gameObject.name);
 				Civilian hitCivilian = coll.GetComponent < Civilian> ();
 				Capitalist hitCapitalist = coll.GetComponent<Capitalist> ();
+				Commie hitCommie = coll.GetComponent<Commie> ();
 				if (hitCivilian != null && Type == WeaponType.LEAFLET) {
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
 				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
 					hitCapitalist.Hit = true;
 					hitCapitalist.BecomeCommie ();
+				} else if (hitCommie != null && Type == WeaponType.ENEMY_MONEY) {
+					hitCommie.Hit = true;
+					hitCommie.BecomeCivilian ();
 				}
 			} else {
 				Debug.Log ("Non-target hit: " + coll.gameObject.name);

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Civilian : Actor
 {
-
+	public Vector2 StartVelocity;
 	public bool Hit = false;
 
 	// Use this for initialization
@@ -11,7 +11,12 @@ public class Civilian : Actor
 	{
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
-		MyDirection = (Direction)Random.Range (0, 4);
+		if (StartVelocity.sqrMagnitude == 0) {
+			MyDirection = (Direction)Random.Range (0, 4);
+		} else {
+			RigidBody.velocity = StartVelocity;
+		}
+
 	}
 	
 	// Update is called once per frame

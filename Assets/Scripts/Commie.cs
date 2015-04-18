@@ -4,6 +4,7 @@ using System.Collections;
 public class Commie : Actor
 {
 	public Vector2 StartVelocity;
+	public bool Hit = false;
 
 	// Use this for initialization
 	void Start ()
@@ -46,7 +47,9 @@ public class Commie : Actor
 	
 	void OnCollisionEnter2D (Collision2D coll)
 	{
-		ResolveNPCCollision (coll);
+		if (!Hit) {
+			ResolveNPCCollision (coll);
+		}
 	}
 
 }
