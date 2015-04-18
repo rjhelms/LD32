@@ -6,20 +6,20 @@ using System.Collections.Generic;
 public class PlayerController : Actor
 {
 	public GameObject[] Projectiles;
-	public int[] Ammo = {100, -1, -1};
 	public Text[] AmmoText;
+	public Text ScoreText;
 	public int CurrentWeapon = 0;
 	public float FireRate;
+	public Camera MyCamera;
 
 	private float nextFire;
 
 	// Use this for initialization
 	void Start ()
 	{
-
-		animator = this.GetComponent<Animator> ();
-		RigidBody = this.GetComponent<Rigidbody2D> ();
+		BaseStart ();
 		nextFire = Time.time;
+		MyCamera = GameObject.FindObjectOfType<Camera> ();
 	}
 	
 	// Update is called once per frame
@@ -42,9 +42,12 @@ public class PlayerController : Actor
 		RigidBody.velocity = moveVector;
 
 		for (int i = 0; i < AmmoText.Length; i++) {
-			AmmoText [i].text = (Ammo [i]).ToString ();
+			AmmoText [i].text = (MyController.Ammo [i]).ToString ();
 		}
 
+		ScoreText.text = MyController.Score.ToString ();
+		MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
+		                                           Mathf.Floor (transform.position.y) - 16, -10);
 	}
 
 	void ProccesInput (ref Vector2 moveVector)
@@ -71,18 +74,22 @@ public class PlayerController : Actor
 		}
 
 		if (Input.GetKey (KeyCode.Space)) {
-			if (Time.time > nextFire && Ammo [CurrentWeapon] > 0) {
+			if (Time.time > nextFire && MyController.Ammo [CurrentWeapon] > 0) {
 				FireProjectile (Projectiles [CurrentWeapon]);
-				Ammo [CurrentWeapon]--;
+				MyController.Ammo [CurrentWeapon]--;
 				nextFire = Time.time + FireRate;
 			}
 		}
 
-		if (Input.GetKey (KeyCode.Alpha1) && Ammo [0] > 0) {
+		if (Input.GetKey (KeyCode.R)) {
+			Application.LoadLevel ("scene1");
+		}
+
+		if (Input.GetKey (KeyCode.Alpha1) && MyController.Ammo [0] > 0) {
 			CurrentWeapon = 0;
 		}
 
-		if (Input.GetKey (KeyCode.Alpha2) && Ammo [1] > 0) {
+		if (Input.GetKey (KeyCode.Alpha2) && MyController.Ammo [1] > 0) {
 			CurrentWeapon = 1;
 		}
 	}

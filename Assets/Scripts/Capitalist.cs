@@ -14,6 +14,7 @@ public class Capitalist : Actor
 	// Use this for initialization
 	void Start ()
 	{
+		BaseStart ();
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		MyDirection = (Direction)Random.Range (0, 4);
@@ -62,21 +63,21 @@ public class Capitalist : Actor
 
 	void CheckForCommie ()
 	{
-		RaycastHit2D[] hit = Physics2D.RaycastAll (transform.position, RigidBody.velocity.normalized, CommieLookDistance, 
+		if (Time.time > nextFire) {
+			RaycastHit2D[] hit = Physics2D.RaycastAll (transform.position, RigidBody.velocity.normalized, CommieLookDistance, 
 		                                           CollideLayers);
-		bool seeCommie = false;
-		foreach (RaycastHit2D item in hit) {
-			if (item.collider.gameObject != this.gameObject) {
-				Commie hitCommie = item.collider.GetComponent<Commie> ();
-				if (hitCommie != null) {
-					Debug.Log ("Spotted commie");
-					seeCommie = true;
+			bool seeCommie = false;
+			foreach (RaycastHit2D item in hit) {
+				if (item.collider.gameObject != this.gameObject) {
+					Commie hitCommie = item.collider.GetComponent<Commie> ();
+					if (hitCommie != null) {
+						Debug.Log ("Spotted commie");
+						seeCommie = true;
+					}
 				}
 			}
-		}
 
-		if (seeCommie) {
-			if (Time.time > nextFire) {
+			if (seeCommie) {
 				FireProjectile (MyProjectile);
 				nextFire = Time.time + FireRate;
 			}

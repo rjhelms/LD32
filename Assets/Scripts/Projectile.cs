@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
 	public Vector2 StartVelocity;
 	public int MaxDistance = 4096;
 	public WeaponType Type;
+	public Actor Source;
 
 	private Vector2 startPosition;
 
@@ -19,7 +20,6 @@ public class Projectile : MonoBehaviour
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		RigidBody.velocity = StartVelocity;
 		startPosition = transform.position;
-
 	}
 	
 	// Update is called once per frame
@@ -35,15 +35,12 @@ public class Projectile : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D coll)
 	{
-		bool validHit = false;
+		bool validHit = true;
 
 		if (coll.gameObject.layer == LayerMask.NameToLayer ("Projectile")) {
 			validHit = false;
-		} else if ((Type == WeaponType.MONEY || Type == WeaponType.LEAFLET) 
-			&& coll.gameObject.layer != LayerMask.NameToLayer ("Player")) {
-			validHit = true;
-		} else if (Type == WeaponType.ENEMY_MONEY && coll.GetComponent<Commie> () != null) {
-			validHit = true;
+		} else if (coll.gameObject == Source.gameObject) {
+			validHit = false;
 		}
 
 		if (validHit) {
@@ -52,15 +49,21 @@ public class Projectile : MonoBehaviour
 				Civilian hitCivilian = coll.GetComponent < Civilian> ();
 				Capitalist hitCapitalist = coll.GetComponent<Capitalist> ();
 				Commie hitCommie = coll.GetComponent<Commie> ();
+				PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
 				if (hitCivilian != null && Type == WeaponType.LEAFLET) {
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
+					Source.MyController.Score += 100;
 				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
 					hitCapitalist.Hit = true;
 					hitCapitalist.BecomeCommie ();
+					Source.MyController.Score += 200;
 				} else if (hitCommie != null && Type == WeaponType.ENEMY_MONEY) {
 					hitCommie.Hit = true;
 					hitCommie.BecomeCivilian ();
+					Source.MyController.Score -= 50;
+				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MONEY) {
+					Source.MyController.Ammo [1]++;
 				}
 			} else {
 				Debug.Log ("Non-target hit: " + coll.gameObject.name);

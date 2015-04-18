@@ -8,17 +8,20 @@ public class Actor : MonoBehaviour
 	public string WalkE = "WalkE";
 	public string WalkS = "WalkS";
 	public string WalkW = "WalkW";
-	
 	public float MoveSpeed = 50f;
 	public float AnimationSpeedFactor = 0.03f;
-	
 	public Direction MyDirection;
 	public bool Moving;
-
 	public LayerMask CollideLayers;
 	public Rigidbody2D RigidBody;
 	public GameObject CommiePrefab;
 	public GameObject CivilianPrefab;
+	public GameController MyController;
+
+	protected Transform CommieContainer;
+	protected Transform CivilianContainer;
+	protected Transform CapitalistContainer;
+	protected Transform ProjectileContainer;
 
 	protected Animator animator;
 
@@ -26,6 +29,18 @@ public class Actor : MonoBehaviour
 	void Start ()
 	{
 	
+	}
+
+	protected void BaseStart ()
+	{
+		animator = this.GetComponent<Animator> ();
+		RigidBody = this.GetComponent<Rigidbody2D> ();
+
+		MyController = GameObject.FindObjectOfType<GameController> ();
+		CommieContainer = GameObject.Find ("Commies").transform;
+		CivilianContainer = GameObject.Find ("Civilians").transform;
+		CapitalistContainer = GameObject.Find ("Capitalists").transform;
+		ProjectileContainer = GameObject.Find ("Projectiles").transform;
 	}
 
 	protected void UpdateAnimation (float speed)
@@ -113,25 +128,7 @@ public class Actor : MonoBehaviour
 
 		return newDirection;
 	}
-
-	public void BecomeCommie ()
-	{
-		GameObject newCommieObject = (GameObject)Instantiate (CommiePrefab, transform.position, Quaternion.identity);
-		Commie newCommie = newCommieObject.GetComponent<Commie> ();
-		newCommie.MyDirection = this.MyDirection;
-		newCommie.StartVelocity = this.RigidBody.velocity;
-		Destroy (this.gameObject);
-	}
-
-	public void BecomeCivilian ()
-	{
-		GameObject newCivilianObject = (GameObject)Instantiate (CivilianPrefab, transform.position, Quaternion.identity);
-		Civilian newCivilian = newCivilianObject.GetComponent<Civilian> ();
-		newCivilian.MyDirection = this.MyDirection;
-		newCivilian.StartVelocity = this.RigidBody.velocity;
-		Destroy (this.gameObject);
-	}
-
+	
 	protected void FireProjectile (GameObject projectile)
 	{
 		Vector2 projectileVelocity = new Vector2 ();
@@ -160,7 +157,28 @@ public class Actor : MonoBehaviour
 		}
 
 		projectileVelocity *= newProjectile.FireVelocity;
-		Debug.Log (projectileVelocity);
+		newProjectile.transform.parent = ProjectileContainer;
 		newProjectile.StartVelocity = projectileVelocity;
+		newProjectile.Source = this;
+	}
+
+	public void BecomeCommie ()
+	{
+		GameObject newCommieObject = (GameObject)Instantiate (CommiePrefab, transform.position, Quaternion.identity);
+		Commie newCommie = newCommieObject.GetComponent<Commie> ();
+		newCommie.transform.parent = CommieContainer;
+		newCommie.MyDirection = this.MyDirection;
+		newCommie.StartVelocity = this.RigidBody.velocity;
+		Destroy (this.gameObject);
+	}
+	
+	public void BecomeCivilian ()
+	{
+		GameObject newCivilianObject = (GameObject)Instantiate (CivilianPrefab, transform.position, Quaternion.identity);
+		Civilian newCivilian = newCivilianObject.GetComponent<Civilian> ();
+		newCivilian.transform.parent = CivilianContainer;
+		newCivilian.MyDirection = this.MyDirection;
+		newCivilian.StartVelocity = this.RigidBody.velocity;
+		Destroy (this.gameObject);
 	}
 }

@@ -9,6 +9,7 @@ public class Commie : Actor
 	// Use this for initialization
 	void Start ()
 	{
+		BaseStart ();
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		RigidBody.velocity = StartVelocity;

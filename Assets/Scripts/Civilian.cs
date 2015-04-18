@@ -9,6 +9,7 @@ public class Civilian : Actor
 	// Use this for initialization
 	void Start ()
 	{
+		BaseStart ();
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		if (StartVelocity.sqrMagnitude == 0) {
