@@ -1,24 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Civilian : Actor
+public class Commie : Actor
 {
-	public GameObject CommiePrefab;
-	public bool Hit = false;
+	public Vector2 StartVelocity;
 
 	// Use this for initialization
 	void Start ()
 	{
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
-		MyDirection = (Direction)Random.Range (0, 4);
+		RigidBody.velocity = StartVelocity;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		Vector2 moveVector = new Vector2 ();
-
+		
 		switch (MyDirection) {
 		case Direction.NORTH:
 			moveVector += new Vector2 (0, 1);
@@ -33,27 +32,17 @@ public class Civilian : Actor
 			moveVector += new Vector2 (-1, 0);
 			break;
 		}
-
+		
 		moveVector = moveVector.normalized * MoveSpeed;
-	
+		
 		UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
-	
+		
 		RigidBody.velocity = moveVector;
 	}
-
+	
 	void OnCollisionEnter2D (Collision2D coll)
 	{
-		if (!Hit) {
-			ResolveNPCCollision (coll);
-		}
+		ResolveNPCCollision (coll);
 	}
 
-	public void BecomeCommie ()
-	{
-		GameObject newCommieObject = (GameObject)Instantiate (CommiePrefab, transform.position, Quaternion.identity);
-		Commie newCommie = newCommieObject.GetComponent<Commie> ();
-		newCommie.MyDirection = this.MyDirection;
-		newCommie.StartVelocity = this.RigidBody.velocity;
-		Destroy (this.gameObject);
-	}
 }
