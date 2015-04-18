@@ -14,7 +14,9 @@ public class Actor : MonoBehaviour
 	
 	public Direction Direction;
 	public bool Moving;
-	
+
+	public LayerMask WallLayers;
+
 	protected Animator animator;
 	protected Rigidbody2D rigidBody;
 
