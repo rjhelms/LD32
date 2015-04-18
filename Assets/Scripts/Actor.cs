@@ -15,7 +15,7 @@ public class Actor : MonoBehaviour
 	public Direction MyDirection;
 	public bool Moving;
 
-	public LayerMask WallLayers;
+	public LayerMask CollideLayers;
 	public Rigidbody2D RigidBody;
 
 	protected Animator animator;
@@ -24,12 +24,6 @@ public class Actor : MonoBehaviour
 	void Start ()
 	{
 	
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate ()
-	{
-		//RigidBody.position = new Vector2 (Mathf.Floor (RigidBody.position.x), Mathf.Floor (RigidBody.position.y));
 	}
 
 	protected void UpdateAnimation (float speed)
@@ -63,8 +57,8 @@ public class Actor : MonoBehaviour
 			|| coll.gameObject.layer == LayerMask.NameToLayer ("NPC")) {
 			newDirection = GetOppositeDirection (MyDirection);
 		} else {
+
 			while (hitWall) {
-				
 				newDirection = (Direction)Random.Range (0, 4);
 				Vector2 rayVector = new Vector2 ();
 				
@@ -83,17 +77,19 @@ public class Actor : MonoBehaviour
 					break;
 				}
 				
-				RaycastHit2D[] hit = Physics2D.RaycastAll (transform.position, rayVector, 16f, WallLayers);
-				if (hit.Length == 1) {
-					hitWall = false;
-				} else {
-					Debug.Log (hit [1].collider.name);
-					Debug.Log ("Rejecting " + newDirection);
-					hitWall = true;
+				RaycastHit2D[] hit = Physics2D.RaycastAll (transform.position, rayVector, 16f, CollideLayers);
+				hitWall = false;
+				foreach (RaycastHit2D item in hit) {
+					if (item.collider.gameObject != this.gameObject) {
+						hitWall = true;
+						Debug.Log (item.collider.name);
+					}
 				}
-				
+				if (hitWall)
+					Debug.Log ("Rejecting " + newDirection);				
 			}
 		}
+
 		MyDirection = newDirection;
 		Debug.Log ("Going " + MyDirection);
 	}

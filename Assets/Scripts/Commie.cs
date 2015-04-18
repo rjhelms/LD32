@@ -14,7 +14,7 @@ public class Commie : Actor
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 		Vector2 moveVector = new Vector2 ();
 		

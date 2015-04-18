@@ -6,12 +6,16 @@ public class PlayerController : Actor
 {
 	public GameObject[] Projectiles;
 	public int CurrentWeapon = 0;
+	public float fireRate;
+
+	private float nextFire;
 
 	// Use this for initialization
 	void Start ()
 	{
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
+		nextFire = Time.time;
 	}
 	
 	// Update is called once per frame
@@ -57,8 +61,11 @@ public class PlayerController : Actor
 			Moving = true;
 		}
 
-		if (Input.GetButtonDown ("Fire1")) {
-			FireProjectile ();
+		if (Input.GetKey (KeyCode.Space)) {
+			if (Time.time > nextFire) {
+				FireProjectile ();
+				nextFire = Time.time + fireRate;
+			}
 		}
 	}
 
