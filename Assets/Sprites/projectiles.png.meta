@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 09736b7573d98b74c9e9d4a1adb620ac
-timeCreated: 1429369810
+timeCreated: 1429388852
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: projectiles_0
+    21300002: projectiles_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,7 +59,17 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: projectiles_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

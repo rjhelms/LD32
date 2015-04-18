@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Civilian : Actor
+public class Capitalist : Actor
 {
 
 	public bool Hit = false;
-
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -20,9 +20,9 @@ public class Civilian : Actor
 		if (RigidBody.velocity.sqrMagnitude < (MoveSpeed * MoveSpeed)) {
 			MyDirection = GetOppositeDirection (MyDirection);
 		}
-
+		
 		Vector2 moveVector = new Vector2 ();
-
+		
 		switch (MyDirection) {
 		case Direction.NORTH:
 			moveVector += new Vector2 (0, 1);
@@ -37,19 +37,18 @@ public class Civilian : Actor
 			moveVector += new Vector2 (-1, 0);
 			break;
 		}
-
+		
 		moveVector = moveVector.normalized * MoveSpeed;
-	
+		
 		UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
-	
+		
 		RigidBody.velocity = moveVector;
 	}
-
+	
 	void OnCollisionEnter2D (Collision2D coll)
 	{
 		if (!Hit) {
 			ResolveNPCCollision (coll);
 		}
 	}
-	
 }

@@ -1,0 +1,43 @@
+Propaganda
+
+- player navigates a city - or each level is a city?
+	- top-down-ish view
+
+- goal is to spread "the cause" to the city
+	- city is full of folks wandering around
+	- also enemies - bureaucrats, cops, army
+
+- weapons:
+	leaflets
+	megaphone
+	money
+
+
+
+to do (bare minimum):
+
+- capitalists
+	- fire money
+	- converted by money
+
+	- when their money hits a commie, converts him back to a civilian
+
+- powerups
+	- ammo - leaflets and money
+
+
+- levels and level loader
+
+- score & lives
+- win condition (for a level/for game)
+
+
+to do (nice)
+	- other bad guys
+		- bureaucrats
+		- cops
+		- soliders
+	
+	- megaphone
+		- like leaflet (converts civilians), but in 8 directions
+		- if it hits a bureaucrat, they come after you

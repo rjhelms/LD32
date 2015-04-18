@@ -16,6 +16,10 @@ public class Commie : Actor
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
+		if (RigidBody.velocity.sqrMagnitude < (MoveSpeed * MoveSpeed)) {
+			MyDirection = GetOppositeDirection (MyDirection);
+		}
+
 		Vector2 moveVector = new Vector2 ();
 		
 		switch (MyDirection) {

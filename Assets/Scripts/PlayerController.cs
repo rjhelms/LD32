@@ -17,13 +17,14 @@ public class PlayerController : Actor
 	// Use this for initialization
 	void Start ()
 	{
+
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		nextFire = Time.time;
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 		Moving = false;
 		Vector2 moveVector = new Vector2 ();
@@ -41,7 +42,9 @@ public class PlayerController : Actor
 
 		RigidBody.velocity = moveVector;
 
-		AmmoText [0].text = (Ammo [0]).ToString ();
+		for (int i = 0; i < AmmoText.Length; i++) {
+			AmmoText [i].text = (Ammo [i]).ToString ();
+		}
 
 	}
 
@@ -75,13 +78,22 @@ public class PlayerController : Actor
 				nextFire = Time.time + fireRate;
 			}
 		}
+
+		if (Input.GetKey (KeyCode.Alpha1) && Ammo [0] > 0) {
+			CurrentWeapon = 0;
+		}
+
+		if (Input.GetKey (KeyCode.Alpha2) && Ammo [1] > 0) {
+			CurrentWeapon = 1;
+		}
 	}
 
 	void FireProjectile ()
 	{
 		Vector2 projectileVelocity = new Vector2 ();
 
-		GameObject newProjectileObject = (GameObject)Instantiate (Projectiles [CurrentWeapon], RigidBody.position, Quaternion.identity);
+		GameObject newProjectileObject = (GameObject)Instantiate (Projectiles [CurrentWeapon], RigidBody.position, 
+		                                                          Quaternion.identity);
 		Projectile newProjectile = newProjectileObject.GetComponent<Projectile> ();
 
 		if (RigidBody.velocity.magnitude > 0) {

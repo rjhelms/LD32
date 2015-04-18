@@ -17,6 +17,8 @@ public class Actor : MonoBehaviour
 
 	public LayerMask CollideLayers;
 	public Rigidbody2D RigidBody;
+	public GameObject CommiePrefab;
+	public GameObject CivilianPrefab;
 
 	protected Animator animator;
 
@@ -94,7 +96,7 @@ public class Actor : MonoBehaviour
 		Debug.Log ("Going " + MyDirection);
 	}
 
-	private Direction GetOppositeDirection (Direction oldDirection)
+	protected Direction GetOppositeDirection (Direction oldDirection)
 	{	
 		Direction newDirection = oldDirection;
 		switch (oldDirection) {
@@ -115,5 +117,14 @@ public class Actor : MonoBehaviour
 		}
 
 		return newDirection;
+	}
+
+	public void BecomeCommie ()
+	{
+		GameObject newCommieObject = (GameObject)Instantiate (CommiePrefab, transform.position, Quaternion.identity);
+		Commie newCommie = newCommieObject.GetComponent<Commie> ();
+		newCommie.MyDirection = this.MyDirection;
+		newCommie.StartVelocity = this.RigidBody.velocity;
+		Destroy (this.gameObject);
 	}
 }

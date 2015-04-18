@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
 	public Rigidbody2D RigidBody;
 	public Vector2 StartVelocity;
 	public int MaxDistance = 4096;
+	public WeaponType Type;
 
 	private Vector2 startPosition;
 
@@ -22,7 +23,7 @@ public class Projectile : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 		int distance = Mathf.FloorToInt (((Vector2)transform.position - startPosition).sqrMagnitude);
 		if (distance > MaxDistance) {
@@ -39,9 +40,13 @@ public class Projectile : MonoBehaviour
 			if ((TargetMask.value & 1 << coll.gameObject.layer) > 0) {
 				Debug.Log ("Target hit: " + coll.gameObject.name);
 				Civilian hitCivilian = coll.GetComponent < Civilian> ();
-				if (hitCivilian != null) {
+				Capitalist hitCapitalist = coll.GetComponent<Capitalist> ();
+				if (hitCivilian != null && Type == WeaponType.LEAFLET) {
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
+				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
+					hitCapitalist.Hit = true;
+					hitCapitalist.BecomeCommie ();
 				}
 			} else {
 				Debug.Log ("Non-target hit: " + coll.gameObject.name);
