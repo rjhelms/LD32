@@ -46,10 +46,30 @@ public class Projectile : MonoBehaviour
 		if (validHit) {
 			if ((TargetMask.value & 1 << coll.gameObject.layer) > 0) {
 				Debug.Log ("Target hit: " + coll.gameObject.name);
-				Civilian hitCivilian = coll.GetComponent < Civilian> ();
-				Capitalist hitCapitalist = coll.GetComponent<Capitalist> ();
-				Commie hitCommie = coll.GetComponent<Commie> ();
-				PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
+
+				Civilian hitCivilian = null;
+				Capitalist hitCapitalist = null;
+				Commie hitCommie = null;
+				Bureaucrat hitBureaucrat = null;
+				PlayerController hitPlayer = null;
+
+				switch (Type) {
+				case WeaponType.LEAFLET:
+					hitCivilian = coll.GetComponent<Civilian> ();
+					break;
+				case WeaponType.MONEY:
+					hitCapitalist = coll.GetComponent<Capitalist> ();
+					break;
+				case WeaponType.MEGAPHONE:
+					hitCivilian = coll.GetComponent<Civilian> ();
+					hitBureaucrat = coll.GetComponent<Bureaucrat> ();
+					break;
+				case WeaponType.ENEMY_MONEY:
+					hitCommie = coll.GetComponent<Commie> ();
+					hitPlayer = coll.GetComponent<PlayerController> ();
+					break;
+				}
+
 				if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
@@ -64,6 +84,8 @@ public class Projectile : MonoBehaviour
 					Source.MyController.Score -= 50;
 				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MONEY) {
 					Source.MyController.Ammo [1]++;
+				} else if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
+					hitBureaucrat.BecomeEnraged ();
 				}
 			} else {
 				Debug.Log ("Non-target hit: " + coll.gameObject.name);

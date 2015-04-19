@@ -17,7 +17,8 @@ public class Actor : MonoBehaviour
 	public GameObject CommiePrefab;
 	public GameObject CivilianPrefab;
 	public GameController MyController;
-	
+	public int RandomTurnChance = 2;
+
 	protected Animator animator;
 
 	// Use this for initialization
@@ -165,7 +166,13 @@ public class Actor : MonoBehaviour
 		if (RigidBody.velocity.sqrMagnitude < (MoveSpeed * MoveSpeed)) {
 			MyDirection = GetOppositeDirection (MyDirection);
 		}
-		
+
+		int turnChance = Random.Range (0, 100);
+		if (turnChance < RandomTurnChance) {
+			Debug.Log ("Random turn");
+			MyDirection = (Direction)Random.Range (0, 4);
+		}
+
 		Vector2 moveVector = new Vector2 ();
 		
 		switch (MyDirection) {
