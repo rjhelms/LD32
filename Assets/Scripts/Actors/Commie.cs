@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Commie : Actor
 {
-	public Vector2 StartVelocity;
+
 	public bool Hit = false;
 
 	public GameObject MyProjectile;
@@ -17,9 +17,7 @@ public class Commie : Actor
 	void Start ()
 	{
 		BaseStart ();
-		animator = this.GetComponent<Animator> ();
-		RigidBody = this.GetComponent<Rigidbody2D> ();
-		RigidBody.velocity = StartVelocity;
+		MyPrefab = MyController.CommiePrefab;
 	}
 	
 	// Update is called once per frame

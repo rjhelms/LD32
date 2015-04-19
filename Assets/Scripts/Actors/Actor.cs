@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Actor : MonoBehaviour
 {
-
+	public Vector2 StartVelocity;
 	public string WalkN = "WalkN";
 	public string WalkE = "WalkE";
 	public string WalkS = "WalkS";
@@ -14,6 +14,7 @@ public class Actor : MonoBehaviour
 	public bool Moving;
 	public LayerMask CollideLayers;
 	public Rigidbody2D RigidBody;
+	public GameObject MyPrefab;
 	public GameObject CommiePrefab;
 	public GameObject CivilianPrefab;
 	public GameController MyController;
@@ -31,8 +32,13 @@ public class Actor : MonoBehaviour
 	{
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
-
 		MyController = GameObject.FindObjectOfType<GameController> ();
+
+		if (StartVelocity.sqrMagnitude == 0) {
+			MyDirection = (Direction)Random.Range (0, 4);
+		} else {
+			RigidBody.velocity = StartVelocity;
+		}
 	}
 
 	protected void UpdateAnimation (float speed)
@@ -203,13 +209,14 @@ public class Actor : MonoBehaviour
 		newCommie.transform.parent = MyController.CommieContainer;
 		newCommie.MyDirection = this.MyDirection;
 		newCommie.StartVelocity = this.RigidBody.velocity;
+		newCommie.CivilianPrefab = this.MyPrefab;
 		Destroy (this.gameObject);
 	}
 	
 	public void BecomeCivilian ()
 	{
 		GameObject newCivilianObject = (GameObject)Instantiate (CivilianPrefab, transform.position, Quaternion.identity);
-		Civilian newCivilian = newCivilianObject.GetComponent<Civilian> ();
+		Actor newCivilian = newCivilianObject.GetComponent<Actor> ();
 		newCivilian.transform.parent = MyController.CivilianContainer;
 		newCivilian.MyDirection = this.MyDirection;
 		newCivilian.StartVelocity = this.RigidBody.velocity;

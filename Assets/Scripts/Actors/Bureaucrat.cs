@@ -4,6 +4,7 @@ using Pathfinding;
 
 public class Bureaucrat : Actor
 {
+
 	public bool Enraged;
 	public float EnragedFlashRate = 1f;
 	public float EnragedDuration = 5f;
@@ -24,11 +25,19 @@ public class Bureaucrat : Actor
 	// Use this for initialization
 	void Start ()
 	{
-		Enraged = false;
 		BaseStart ();
-		MyDirection = (Direction)Random.Range (0, 4);
+
+		if (StartVelocity.sqrMagnitude == 0) {
+			MyDirection = (Direction)Random.Range (0, 4);
+		} else {
+			RigidBody.velocity = StartVelocity;
+		}
+
 		mySprite = this.GetComponent<SpriteRenderer> ();
 		seeker = this.GetComponent<Seeker> ();
+		MyPrefab = MyController.BureaucratPrefab;
+
+		Enraged = false;		
 	}
 	
 	// Update is called once per frame

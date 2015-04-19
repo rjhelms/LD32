@@ -26,6 +26,10 @@ public class GameController : MonoBehaviour
 	public Text ScoreText;
 	public Image WeaponSelectorImage;
 	public Image HealthBarImage;
+	public GameObject CivilianPrefab;
+	public GameObject CommiePrefab;
+	public GameObject CapitalistPrefab;
+	public GameObject BureaucratPrefab;
 
 	public Vector3[] WeaponSelectorPositions;
 

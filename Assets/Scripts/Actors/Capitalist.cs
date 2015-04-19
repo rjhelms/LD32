@@ -3,22 +3,19 @@ using System.Collections;
 
 public class Capitalist : Actor
 {
-	public Vector2 StartVelocity;
 	public bool Hit = false;
 	public float CommieLookDistance = 64f;
 	public GameObject MyProjectile;
 	public float FireRate;
 
 	private float nextFire;
-
+	
 	// Use this for initialization
 	void Start ()
 	{
 		BaseStart ();
-		animator = this.GetComponent<Animator> ();
-		RigidBody = this.GetComponent<Rigidbody2D> ();
-		MyDirection = (Direction)Random.Range (0, 4);
-		nextFire = Time.time;
+
+		MyPrefab = MyController.CapitalistPrefab;
 	}
 	
 	// Update is called once per frame
