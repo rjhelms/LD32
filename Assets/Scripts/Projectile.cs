@@ -60,6 +60,7 @@ public class Projectile : MonoBehaviour
 					break;
 				case WeaponType.MONEY:
 					hitCapitalist = coll.GetComponent<Capitalist> ();
+					hitBureaucrat = coll.GetComponent<Bureaucrat> ();
 					break;
 				case WeaponType.MEGAPHONE:
 					hitCivilian = coll.GetComponent<Civilian> ();
@@ -75,18 +76,31 @@ public class Projectile : MonoBehaviour
 					break;
 				}
 
-				if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
+				if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
+					
+					hitBureaucrat.BecomeEnraged ();
+					
+				} else if (hitBureaucrat != null && Type == WeaponType.MONEY) {
+
+					if (!hitBureaucrat.Enraged) {
+						hitBureaucrat.Hit = true;
+						hitBureaucrat.BecomeCommie ();
+						MyController.Score += 200;
+						MyController.HitPoints += 1;
+					}
+
+				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
+					
+					hitCapitalist.Hit = true;
+					hitCapitalist.BecomeCommie ();
+					MyController.Score += 200;
+					MyController.HitPoints += 1;
+					
+				} else if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
 
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
 					MyController.Score += 100;
-					MyController.HitPoints += 1;
-
-				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
-
-					hitCapitalist.Hit = true;
-					hitCapitalist.BecomeCommie ();
-					MyController.Score += 200;
 					MyController.HitPoints += 1;
 
 				} else if (hitCommie != null 
@@ -105,10 +119,6 @@ public class Projectile : MonoBehaviour
 				
 					MyController.HitPoints -= 1;
 				
-				} else if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
-
-					hitBureaucrat.BecomeEnraged ();
-
 				}
 			}
 

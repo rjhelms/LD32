@@ -27,12 +27,6 @@ public class Bureaucrat : Actor
 	{
 		BaseStart ();
 
-		if (StartVelocity.sqrMagnitude == 0) {
-			MyDirection = (Direction)Random.Range (0, 4);
-		} else {
-			RigidBody.velocity = StartVelocity;
-		}
-
 		mySprite = this.GetComponent<SpriteRenderer> ();
 		seeker = this.GetComponent<Seeker> ();
 		MyPrefab = MyController.BureaucratPrefab;
@@ -68,7 +62,7 @@ public class Bureaucrat : Actor
 	{
 		if (Enraged) {
 			ResolveEnragedCollision (coll);
-		} else {
+		} else if (!Hit) {
 			ResolveNPCCollision (coll);
 		}
 

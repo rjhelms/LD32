@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Actor : MonoBehaviour
 {
+	public bool Hit = false;
 	public Vector2 StartVelocity;
 	public string WalkN = "WalkN";
 	public string WalkE = "WalkE";

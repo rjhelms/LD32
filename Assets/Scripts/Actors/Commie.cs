@@ -4,8 +4,6 @@ using System.Collections;
 public class Commie : Actor
 {
 
-	public bool Hit = false;
-
 	public GameObject MyProjectile;
 	public int FireChance = 1;
 	public float FireRate;

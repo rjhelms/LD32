@@ -23,13 +23,14 @@ to do (bare minimum):
 	- when their money hits a commie, converts him back to a civilian - implemented
 
 - powerups
-	- ammo - leaflets and money
+	- ammo - leaflets, money, megaphones
 
 
 - levels and level loader
 
 - score & lives
 	- score implemented
+	- hit points implemented
 
 - win condition (for a level/for game)
 - lose condition
@@ -38,10 +39,11 @@ to do (bare minimum):
 
 to do (nice)
 	- other bad guys
-		- bureaucrats
+		- bureaucrats - implemented
 		- cops
 		- soliders
 	
 	- megaphone
 		- like leaflet (converts civilians), but in 8 directions - implemented
-		- if it hits a bureaucrat, they come after you
+		- if it hits a bureaucrat, they come after you - implemented
+

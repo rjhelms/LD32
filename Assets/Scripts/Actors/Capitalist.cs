@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Capitalist : Actor
 {
-	public bool Hit = false;
 	public float CommieLookDistance = 64f;
 	public GameObject MyProjectile;
 	public float FireRate;
