@@ -27,7 +27,6 @@ public class Projectile : MonoBehaviour
 	{
 		int distance = Mathf.FloorToInt (((Vector2)transform.position - startPosition).sqrMagnitude);
 		if (distance > MaxDistance) {
-			Debug.Log ("Max distance reached.");
 			Destroy (this.gameObject);
 		}
 	
@@ -87,8 +86,6 @@ public class Projectile : MonoBehaviour
 				} else if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
 					hitBureaucrat.BecomeEnraged ();
 				}
-			} else {
-				Debug.Log ("Non-target hit: " + coll.gameObject.name);
 			}
 
 			Destroy (this.gameObject);

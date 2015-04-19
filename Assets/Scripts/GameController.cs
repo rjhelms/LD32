@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
 	public Transform CapitalistContainer;
 	public Transform ProjectileContainer;
 	public Transform BureaucratContainer;
+	public Transform PlayerTransform;
 
 	void Awake ()
 	{
@@ -88,5 +89,14 @@ public class GameController : MonoBehaviour
 		CapitalistContainer = GameObject.Find ("Capitalists").transform;
 		ProjectileContainer = GameObject.Find ("Projectiles").transform;
 		BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
+		PlayerTransform = GameObject.Find ("Player").transform;
+	}
+
+	public void BureaucratHit ()
+	{
+		Score -= 100;
+		Ammo [0] -= 10;
+		Ammo [1] -= 10;
+		Ammo [2] -= 10;
 	}
 }

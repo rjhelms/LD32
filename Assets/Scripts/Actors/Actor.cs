@@ -169,7 +169,6 @@ public class Actor : MonoBehaviour
 
 		int turnChance = Random.Range (0, 100);
 		if (turnChance < RandomTurnChance) {
-			Debug.Log ("Random turn");
 			MyDirection = (Direction)Random.Range (0, 4);
 		}
 
