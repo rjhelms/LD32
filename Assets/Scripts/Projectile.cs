@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
 	public int MaxDistance = 4096;
 	public WeaponType Type;
 	public Actor Source;
+	public GameController MyController;
 
 	protected Vector2 startPosition;
 
@@ -20,6 +21,7 @@ public class Projectile : MonoBehaviour
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		RigidBody.velocity = StartVelocity;
 		startPosition = transform.position;
+		MyController = Source.MyController;
 	}
 	
 	// Update is called once per frame
@@ -72,17 +74,20 @@ public class Projectile : MonoBehaviour
 				if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
-					Source.MyController.Score += 100;
+					MyController.Score += 100;
+					MyController.HitPoints += 1;
 				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
 					hitCapitalist.Hit = true;
 					hitCapitalist.BecomeCommie ();
-					Source.MyController.Score += 200;
+					MyController.Score += 200;
+					MyController.HitPoints += 1;
 				} else if (hitCommie != null && Type == WeaponType.ENEMY_MONEY) {
 					hitCommie.Hit = true;
 					hitCommie.BecomeCivilian ();
-					Source.MyController.Score -= 50;
+					MyController.Score -= 50;
+					MyController.HitPoints -= 1;
 				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MONEY) {
-					Source.MyController.Ammo [1]++;
+					MyController.Ammo [1]++;
 				} else if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
 					hitBureaucrat.BecomeEnraged ();
 				}

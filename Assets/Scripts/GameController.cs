@@ -18,11 +18,13 @@ public class GameController : MonoBehaviour
 	}
 
 	public int Score;
+	public int HitPoints;
 	public int Lives;
 	public int[] Ammo = {100, -1, -1};
 	public Text[] AmmoText;
 	public Text ScoreText;
 	public Image WeaponSelectorImage;
+	public Image HealthBarImage;
 
 	public Vector3[] WeaponSelectorPositions;
 
@@ -57,6 +59,13 @@ public class GameController : MonoBehaviour
 	void Update ()
 	{
 
+		if (HitPoints > 32) {
+			HitPoints = 32;
+		}
+		if (HitPoints <= 0) {
+			Debug.Log ("You died");
+		}
+
 		for (int i = 0; i < AmmoText.Length; i++) {
 			if (Ammo [i] > 99)
 				Ammo [i] = 99;
@@ -68,6 +77,7 @@ public class GameController : MonoBehaviour
 		}
 		
 		ScoreText.text = Score.ToString ();
+		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
 	}
 
 	void Initialize ()
@@ -78,6 +88,7 @@ public class GameController : MonoBehaviour
 		AmmoText [2] = GameObject.Find ("MegaphoneValue").GetComponent<Text> ();
 		ScoreText = GameObject.Find ("ScoreValue").GetComponent<Text> ();
 		WeaponSelectorImage = GameObject.Find ("WeaponSelector").GetComponent<Image> ();
+		HealthBarImage = GameObject.Find ("HealthBar").GetComponent<Image> ();
 
 		WeaponSelectorPositions = new Vector3[3];
 		WeaponSelectorPositions [0] = WeaponSelectorImage.rectTransform.localPosition;
@@ -98,5 +109,6 @@ public class GameController : MonoBehaviour
 		Ammo [0] -= 10;
 		Ammo [1] -= 10;
 		Ammo [2] -= 10;
+		HitPoints -= 5;
 	}
 }
