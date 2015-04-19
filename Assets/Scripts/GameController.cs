@@ -60,6 +60,9 @@ public class GameController : MonoBehaviour
 			if (Ammo [i] > 99)
 				Ammo [i] = 99;
 
+			if (Ammo [i] < 0)
+				Ammo [i] = 0;
+
 			AmmoText [i].text = (Ammo [i]).ToString ();
 		}
 		
@@ -77,7 +80,6 @@ public class GameController : MonoBehaviour
 
 		WeaponSelectorPositions = new Vector3[3];
 		WeaponSelectorPositions [0] = WeaponSelectorImage.rectTransform.localPosition;
-		;
 		WeaponSelectorPositions [1] = WeaponSelectorPositions [0] + new Vector3 (36, 0, 0);
 		WeaponSelectorPositions [2] = WeaponSelectorPositions [1] + new Vector3 (36, 0, 0);
 

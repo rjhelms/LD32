@@ -64,6 +64,7 @@ public class Actor : MonoBehaviour
 			|| coll.gameObject.layer == LayerMask.NameToLayer ("NPC")) {
 			newDirection = GetOppositeDirection (MyDirection);
 		} else {
+			int depth = 0;
 
 			while (hitWall) {
 				newDirection = (Direction)Random.Range (0, 4);
@@ -89,8 +90,14 @@ public class Actor : MonoBehaviour
 				foreach (RaycastHit2D item in hit) {
 					if (item.collider.gameObject != this.gameObject) {
 						hitWall = true;
+						depth++;
 					}
-				}				
+				}
+
+				if (depth > 20) {
+					Debug.LogError ("Couldn't resolve collision");
+					hitWall = false;
+				}
 			}
 		}
 
@@ -151,6 +158,36 @@ public class Actor : MonoBehaviour
 		newProjectile.transform.parent = MyController.ProjectileContainer;
 		newProjectile.StartVelocity = projectileVelocity;
 		newProjectile.Source = this;
+	}
+
+	protected void BaseMovement ()
+	{
+		if (RigidBody.velocity.sqrMagnitude < (MoveSpeed * MoveSpeed)) {
+			MyDirection = GetOppositeDirection (MyDirection);
+		}
+		
+		Vector2 moveVector = new Vector2 ();
+		
+		switch (MyDirection) {
+		case Direction.NORTH:
+			moveVector += new Vector2 (0, 1);
+			break;
+		case Direction.EAST:
+			moveVector += new Vector2 (1, 0);
+			break;
+		case Direction.SOUTH:
+			moveVector += new Vector2 (0, -1);
+			break;
+		case Direction.WEST:
+			moveVector += new Vector2 (-1, 0);
+			break;
+		}
+		
+		moveVector = moveVector.normalized * MoveSpeed;
+		
+		UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
+		
+		RigidBody.velocity = moveVector;
 	}
 
 	public void BecomeCommie ()
