@@ -17,10 +17,10 @@ Propaganda
 to do (bare minimum):
 
 - capitalists
-	- fire money
-	- converted by money
+	- fire money - implemented
+	- converted by money - implemented
 
-	- when their money hits a commie, converts him back to a civilian
+	- when their money hits a commie, converts him back to a civilian - implemented
 
 - powerups
 	- ammo - leaflets and money
@@ -29,8 +29,12 @@ to do (bare minimum):
 - levels and level loader
 
 - score & lives
-- win condition (for a level/for game)
+	- score implemented
 
+- win condition (for a level/for game)
+- lose condition
+
+- sound
 
 to do (nice)
 	- other bad guys
@@ -39,5 +43,5 @@ to do (nice)
 		- soliders
 	
 	- megaphone
-		- like leaflet (converts civilians), but in 8 directions
+		- like leaflet (converts civilians), but in 8 directions - implemented
 		- if it hits a bureaucrat, they come after you

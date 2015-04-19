@@ -46,7 +46,11 @@ public class GameController : MonoBehaviour
 
 	void Update ()
 	{
+
 		for (int i = 0; i < AmmoText.Length; i++) {
+			if (Ammo [i] > 99)
+				Ammo [i] = 99;
+
 			AmmoText [i].text = (Ammo [i]).ToString ();
 		}
 		
@@ -55,9 +59,10 @@ public class GameController : MonoBehaviour
 
 	void InitializeText ()
 	{
-		AmmoText = new Text[2];
+		AmmoText = new Text[3];
 		AmmoText [0] = GameObject.Find ("LeafletValue").GetComponent<Text> ();
 		AmmoText [1] = GameObject.Find ("MoneyValue").GetComponent<Text> ();
+		AmmoText [2] = GameObject.Find ("MegaphoneValue").GetComponent<Text> ();
 		ScoreText = GameObject.Find ("ScoreValue").GetComponent<Text> ();
 	}
 }
