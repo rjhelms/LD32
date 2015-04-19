@@ -63,7 +63,7 @@ public class PlayerController : Actor
 
 	void ProccesInput (ref Vector2 moveVector)
 	{
-		if (Input.GetKey (KeyCode.W)) {
+		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.Z)) {
 			MyDirection = Direction.NORTH;
 			moveVector += new Vector2 (0, 1);
 			Moving = true;
@@ -78,7 +78,7 @@ public class PlayerController : Actor
 			moveVector += new Vector2 (0, -1);
 			Moving = true;
 		}
-		if (Input.GetKey (KeyCode.A)) {
+		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.Q)) {
 			MyDirection = Direction.WEST;
 			moveVector += new Vector2 (-1, 0);
 			Moving = true;
