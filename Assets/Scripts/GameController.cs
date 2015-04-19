@@ -40,6 +40,16 @@ public class GameController : MonoBehaviour
 	public Transform BureaucratContainer;
 	public Transform PlayerTransform;
 
+	public AudioClip[] PlayerWeaponSounds;
+
+	public AudioClip PowerUpSound;
+	public AudioClip PlayerHitSound;
+	public AudioClip CommieSound;
+	public AudioClip CivilianSound;
+	public AudioClip EnragedSound;
+
+	public AudioSource SFXSource;
+
 	void Awake ()
 	{
 		if (_instance == null) {
@@ -108,6 +118,8 @@ public class GameController : MonoBehaviour
 		ProjectileContainer = GameObject.Find ("Projectiles").transform;
 		BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
 		PlayerTransform = GameObject.Find ("Player").transform;
+
+		SFXSource = GameObject.Find ("SoundFX").GetComponent<AudioSource> ();
 	}
 
 	public void Pause ()
@@ -123,6 +135,7 @@ public class GameController : MonoBehaviour
 
 	public void BureaucratHit ()
 	{
+		SFXSource.PlayOneShot (PlayerHitSound);
 		Score -= 100;
 		Ammo [0] -= 10;
 		Ammo [1] -= 10;

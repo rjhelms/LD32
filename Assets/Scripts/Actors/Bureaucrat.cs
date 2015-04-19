@@ -16,7 +16,7 @@ public class Bureaucrat : Actor
 
 	private float nextFlashTime;
 	private float calmTime;
-	private SpriteRenderer mySprite;
+
 	private Seeker seeker;
 	private int currentWayPoint;
 	private bool waitingForPath;
@@ -27,7 +27,6 @@ public class Bureaucrat : Actor
 	{
 		BaseStart ();
 
-		mySprite = this.GetComponent<SpriteRenderer> ();
 		seeker = this.GetComponent<Seeker> ();
 		MyPrefab = MyController.BureaucratPrefab;
 
@@ -50,6 +49,9 @@ public class Bureaucrat : Actor
 				if (willFire < FireChance) {
 					FireProjectile (MyProjectile);
 					nextFire = Time.time + FireRate;
+					if (Enraged || mySprite.isVisible) {
+						MyController.SFXSource.PlayOneShot (MyWeaponSound);
+					}
 				}
 			}
 
@@ -139,6 +141,7 @@ public class Bureaucrat : Actor
 		if (!Enraged) {
 			nextFlashTime = Time.time + EnragedFlashRate;
 			FireChance *= 5;
+			MyController.SFXSource.PlayOneShot (MyController.EnragedSound);
 		}
 
 		Enraged = true;

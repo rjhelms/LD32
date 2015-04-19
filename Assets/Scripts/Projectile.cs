@@ -40,7 +40,9 @@ public class Projectile : MonoBehaviour
 
 		if (coll.gameObject.layer == LayerMask.NameToLayer ("Projectile")) {
 			validHit = false;
-		} else if (Source.gameObject != null && coll.gameObject == Source.gameObject) {
+		} else if (Source == null || Source.gameObject == null || coll.gameObject == null) {
+			validHit = false;
+		} else if (coll.gameObject == Source.gameObject) {
 			validHit = false;
 		}
 
@@ -114,10 +116,12 @@ public class Projectile : MonoBehaviour
 				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MONEY) {
 
 					MyController.Ammo [1]++;
+					MyController.SFXSource.PlayOneShot (MyController.PowerUpSound);
 
 				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MEGAPHONE) {
 				
 					MyController.HitPoints -= 1;
+					MyController.SFXSource.PlayOneShot (MyController.PlayerHitSound);
 				
 				}
 			}

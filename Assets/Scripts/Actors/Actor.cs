@@ -20,8 +20,10 @@ public class Actor : MonoBehaviour
 	public GameObject CivilianPrefab;
 	public GameController MyController;
 	public int RandomTurnChance = 2;
+	public AudioClip MyWeaponSound;
 
 	protected Animator animator;
+	protected SpriteRenderer mySprite;
 
 	// Use this for initialization
 	void Start ()
@@ -34,6 +36,7 @@ public class Actor : MonoBehaviour
 		animator = this.GetComponent<Animator> ();
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		MyController = GameObject.FindObjectOfType<GameController> ();
+		mySprite = this.GetComponent<SpriteRenderer> ();
 
 		if (StartVelocity.sqrMagnitude == 0) {
 			MyDirection = (Direction)Random.Range (0, 4);
@@ -211,6 +214,9 @@ public class Actor : MonoBehaviour
 		newCommie.MyDirection = this.MyDirection;
 		newCommie.StartVelocity = this.RigidBody.velocity;
 		newCommie.CivilianPrefab = this.MyPrefab;
+		if (mySprite.isVisible) {
+			MyController.SFXSource.PlayOneShot (MyController.CommieSound);
+		}
 		Destroy (this.gameObject);
 	}
 	
@@ -221,6 +227,9 @@ public class Actor : MonoBehaviour
 		newCivilian.transform.parent = MyController.CivilianContainer;
 		newCivilian.MyDirection = this.MyDirection;
 		newCivilian.StartVelocity = this.RigidBody.velocity;
+		if (mySprite.isVisible) {
+			MyController.SFXSource.PlayOneShot (MyController.CivilianSound);
+		}
 		Destroy (this.gameObject);
 	}
 }

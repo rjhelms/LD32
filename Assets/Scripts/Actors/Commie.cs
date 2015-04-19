@@ -29,6 +29,9 @@ public class Commie : Actor
 				if (willFire < FireChance) {
 					FireProjectile (MyProjectile);
 					nextFire = Time.time + FireRate;
+					if (mySprite.isVisible) {
+						MyController.SFXSource.PlayOneShot (MyWeaponSound);
+					}
 				}
 			}
 

@@ -54,6 +54,9 @@ public class Capitalist : Actor
 			if (seeCommie) {
 				FireProjectile (MyProjectile);
 				nextFire = Time.time + FireRate;
+				if (mySprite.isVisible) {
+					MyController.SFXSource.PlayOneShot (MyWeaponSound);
+				}
 			}
 		}
 	}

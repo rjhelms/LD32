@@ -33,6 +33,7 @@ public class PlayerController : Actor
 		if (Input.GetKeyDown (KeyCode.R)) {
 			Application.LoadLevel ("scene1");
 		}
+
 	}
 	// Update is called once per frame
 	void FixedUpdate ()
@@ -89,6 +90,7 @@ public class PlayerController : Actor
 				FireProjectile (Projectiles [CurrentWeapon]);
 				MyController.Ammo [CurrentWeapon]--;
 				nextFire = Time.time + FireRate;
+				MyController.SFXSource.PlayOneShot (MyController.PlayerWeaponSounds [CurrentWeapon]);
 			}
 		}
 
