@@ -6,8 +6,6 @@ using System.Collections.Generic;
 public class PlayerController : Actor
 {
 	public GameObject[] Projectiles;
-	public Text[] AmmoText;
-	public Text ScoreText;
 	public int CurrentWeapon = 0;
 	public float FireRate;
 	public Camera MyCamera;
@@ -41,11 +39,6 @@ public class PlayerController : Actor
 
 		RigidBody.velocity = moveVector;
 
-		for (int i = 0; i < AmmoText.Length; i++) {
-			AmmoText [i].text = (MyController.Ammo [i]).ToString ();
-		}
-
-		ScoreText.text = MyController.Score.ToString ();
 		MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
 		                                           Mathf.Floor (transform.position.y) - 16, -10);
 	}
@@ -91,6 +84,10 @@ public class PlayerController : Actor
 
 		if (Input.GetKey (KeyCode.Alpha2) && MyController.Ammo [1] > 0) {
 			CurrentWeapon = 1;
+		}
+
+		if (Input.GetKey (KeyCode.Alpha3) && MyController.Ammo [2] > 0) {
+			CurrentWeapon = 2;
 		}
 	}
 }

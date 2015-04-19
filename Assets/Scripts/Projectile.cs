@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
 	public WeaponType Type;
 	public Actor Source;
 
-	private Vector2 startPosition;
+	protected Vector2 startPosition;
 
 	// Use this for initialization
 	void Start ()
@@ -50,7 +50,7 @@ public class Projectile : MonoBehaviour
 				Capitalist hitCapitalist = coll.GetComponent<Capitalist> ();
 				Commie hitCommie = coll.GetComponent<Commie> ();
 				PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
-				if (hitCivilian != null && Type == WeaponType.LEAFLET) {
+				if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
 					Source.MyController.Score += 100;
