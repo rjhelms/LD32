@@ -6,6 +6,13 @@ public class Commie : Actor
 	public Vector2 StartVelocity;
 	public bool Hit = false;
 
+	public GameObject MyProjectile;
+	public int FireChance = 1;
+	public float FireRate;
+
+	private float nextFire;
+
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -18,32 +25,20 @@ public class Commie : Actor
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		if (RigidBody.velocity.sqrMagnitude < (MoveSpeed * MoveSpeed)) {
-			MyDirection = GetOppositeDirection (MyDirection);
-		}
+		if (MyController.Running) {
+			BaseMovement ();
 
-		Vector2 moveVector = new Vector2 ();
-		
-		switch (MyDirection) {
-		case Direction.NORTH:
-			moveVector += new Vector2 (0, 1);
-			break;
-		case Direction.EAST:
-			moveVector += new Vector2 (1, 0);
-			break;
-		case Direction.SOUTH:
-			moveVector += new Vector2 (0, -1);
-			break;
-		case Direction.WEST:
-			moveVector += new Vector2 (-1, 0);
-			break;
+			if (Time.time > nextFire) {
+				int willFire = Random.Range (0, 100);
+				if (willFire < FireChance) {
+					FireProjectile (MyProjectile);
+					nextFire = Time.time + FireRate;
+				}
+			}
+
+		} else {
+			RigidBody.velocity = Vector2.zero;
 		}
-		
-		moveVector = moveVector.normalized * MoveSpeed;
-		
-		UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
-		
-		RigidBody.velocity = moveVector;
 	}
 	
 	void OnCollisionEnter2D (Collision2D coll)

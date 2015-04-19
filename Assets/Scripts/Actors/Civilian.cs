@@ -23,7 +23,11 @@ public class Civilian : Actor
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		BaseMovement ();
+		if (MyController.Running) {
+			BaseMovement ();
+		} else {
+			RigidBody.velocity = Vector2.zero;
+		}
 	}
 
 	void OnCollisionEnter2D (Collision2D coll)

@@ -9,6 +9,9 @@ public class Bureaucrat : Actor
 	public float EnragedDuration = 5f;
 	public Path MyPath;
 	public float NextWayPointDistance = 2f;
+	public GameObject MyProjectile;
+	public int FireChance = 1;
+	public float FireRate;
 
 	private float nextFlashTime;
 	private float calmTime;
@@ -16,6 +19,7 @@ public class Bureaucrat : Actor
 	private Seeker seeker;
 	private int currentWayPoint;
 	private bool waitingForPath;
+	private float nextFire;
 
 	// Use this for initialization
 	void Start ()
@@ -30,10 +34,24 @@ public class Bureaucrat : Actor
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		if (Enraged) {
-			EnragedUpdate ();
+		if (MyController.Running) {
+
+			if (Enraged) {
+				EnragedUpdate ();
+			} else {
+				BaseMovement ();
+			}
+
+			if (Time.time > nextFire) {
+				int willFire = Random.Range (0, 100);
+				if (willFire < FireChance) {
+					FireProjectile (MyProjectile);
+					nextFire = Time.time + FireRate;
+				}
+			}
+
 		} else {
-			BaseMovement ();
+			RigidBody.velocity = Vector2.zero;
 		}
 	}
 
@@ -115,15 +133,20 @@ public class Bureaucrat : Actor
 
 	public void BecomeEnraged ()
 	{
-		if (!Enraged)
+		if (!Enraged) {
 			nextFlashTime = Time.time + EnragedFlashRate;
+			FireChance *= 5;
+		}
 
 		Enraged = true;
 		calmTime = Time.time + EnragedDuration;
 		Debug.Log ("grrr...");
-		MyPath = null;
-		waitingForPath = true;
-		seeker.StartPath (transform.position, MyController.PlayerTransform.position, OnPathComplete);
+
+		if (!waitingForPath) {
+			MyPath = null;
+			waitingForPath = true;
+			seeker.StartPath (transform.position, MyController.PlayerTransform.position, OnPathComplete);
+		}
 	}
 
 	public void BecomeCalm ()
@@ -131,6 +154,7 @@ public class Bureaucrat : Actor
 		Enraged = false;
 		mySprite.enabled = true;
 		MyPath = null;
+		FireChance /= 5;
 	}
 		
 	public void OnPathComplete (Path p)

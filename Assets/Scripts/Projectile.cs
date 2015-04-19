@@ -40,12 +40,12 @@ public class Projectile : MonoBehaviour
 
 		if (coll.gameObject.layer == LayerMask.NameToLayer ("Projectile")) {
 			validHit = false;
-		} else if (coll.gameObject == Source.gameObject) {
+		} else if (Source.gameObject != null && coll.gameObject == Source.gameObject) {
 			validHit = false;
 		}
 
-		if (validHit) {
-			if ((TargetMask.value & 1 << coll.gameObject.layer) > 0) {
+		if (validHit && coll.gameObject != null) {
+			if ((TargetMask.value & 1 << coll.gameObject.layer) > 0 && MyController.Running) {
 				Debug.Log ("Target hit: " + coll.gameObject.name);
 
 				Civilian hitCivilian = null;
@@ -69,27 +69,46 @@ public class Projectile : MonoBehaviour
 					hitCommie = coll.GetComponent<Commie> ();
 					hitPlayer = coll.GetComponent<PlayerController> ();
 					break;
+				case WeaponType.ENEMY_MEGAPHONE:
+					hitCommie = coll.GetComponent<Commie> ();
+					hitPlayer = coll.GetComponent<PlayerController> ();
+					break;
 				}
 
 				if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
+
 					hitCivilian.Hit = true;
 					hitCivilian.BecomeCommie ();
 					MyController.Score += 100;
 					MyController.HitPoints += 1;
+
 				} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
+
 					hitCapitalist.Hit = true;
 					hitCapitalist.BecomeCommie ();
 					MyController.Score += 200;
 					MyController.HitPoints += 1;
-				} else if (hitCommie != null && Type == WeaponType.ENEMY_MONEY) {
+
+				} else if (hitCommie != null 
+					&& (Type == WeaponType.ENEMY_MONEY || Type == WeaponType.ENEMY_MEGAPHONE)) {
+
 					hitCommie.Hit = true;
 					hitCommie.BecomeCivilian ();
 					MyController.Score -= 50;
 					MyController.HitPoints -= 1;
+
 				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MONEY) {
+
 					MyController.Ammo [1]++;
+
+				} else if (hitPlayer != null && Type == WeaponType.ENEMY_MEGAPHONE) {
+				
+					MyController.HitPoints -= 1;
+				
 				} else if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
+
 					hitBureaucrat.BecomeEnraged ();
+
 				}
 			}
 

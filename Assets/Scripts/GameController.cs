@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+	public bool Running;
 	public int Score;
 	public int HitPoints;
 	public int Lives;
@@ -58,26 +59,28 @@ public class GameController : MonoBehaviour
 
 	void Update ()
 	{
+		if (Running) {
+			if (HitPoints > 32) {
+				HitPoints = 32;
+			}
+			if (HitPoints <= 0) {
+				Debug.Log ("You died");
+				Pause ();
+			}
 
-		if (HitPoints > 32) {
-			HitPoints = 32;
-		}
-		if (HitPoints <= 0) {
-			Debug.Log ("You died");
-		}
+			for (int i = 0; i < AmmoText.Length; i++) {
+				if (Ammo [i] > 99)
+					Ammo [i] = 99;
 
-		for (int i = 0; i < AmmoText.Length; i++) {
-			if (Ammo [i] > 99)
-				Ammo [i] = 99;
+				if (Ammo [i] < 0)
+					Ammo [i] = 0;
 
-			if (Ammo [i] < 0)
-				Ammo [i] = 0;
-
-			AmmoText [i].text = (Ammo [i]).ToString ();
-		}
+				AmmoText [i].text = (Ammo [i]).ToString ();
+			}
 		
-		ScoreText.text = Score.ToString ();
-		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
+			ScoreText.text = Score.ToString ();
+			HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
+		}
 	}
 
 	void Initialize ()
@@ -101,6 +104,17 @@ public class GameController : MonoBehaviour
 		ProjectileContainer = GameObject.Find ("Projectiles").transform;
 		BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
 		PlayerTransform = GameObject.Find ("Player").transform;
+	}
+
+	public void Pause ()
+	{
+		Running = false;
+		Time.timeScale = 0;
+	}
+	public void Resume ()
+	{
+		Running = true;
+		Time.timeScale = 1;
 	}
 
 	public void BureaucratHit ()

@@ -19,28 +19,46 @@ public class PlayerController : Actor
 		nextFire = Time.time;
 		MyCamera = GameObject.FindObjectOfType<Camera> ();
 	}
-	
+
+	void Update ()
+	{
+		if (Input.GetKeyDown (KeyCode.X)) {
+			if (MyController.Running) {
+				MyController.Pause ();
+			} else {
+				MyController.Resume ();
+			}
+		}
+
+		if (Input.GetKeyDown (KeyCode.R)) {
+			Application.LoadLevel ("scene1");
+		}
+	}
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		Moving = false;
-		Vector2 moveVector = new Vector2 ();
+		if (MyController.Running) {
+			Moving = false;
+			Vector2 moveVector = new Vector2 ();
 
-		ProccesInput (ref moveVector);
+			ProccesInput (ref moveVector);
 
-		// move player
-		if (!Moving) {
-			moveVector *= 0;
-		} else {
-			moveVector = moveVector.normalized * MoveSpeed;
-		}
+			// move player
+			if (!Moving) {
+				moveVector *= 0;
+			} else {
+				moveVector = moveVector.normalized * MoveSpeed;
+			}
 
-		UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
+			UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
 
-		RigidBody.velocity = moveVector;
+			RigidBody.velocity = moveVector;
 
-		MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
+			MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
 		                                           Mathf.Floor (transform.position.y) - 16, -10);
+		} else {
+			RigidBody.velocity = Vector2.zero;
+		}
 	}
 
 	void ProccesInput (ref Vector2 moveVector)
@@ -74,9 +92,7 @@ public class PlayerController : Actor
 			}
 		}
 
-		if (Input.GetKey (KeyCode.R)) {
-			Application.LoadLevel ("scene1");
-		}
+
 
 		if (Input.GetKey (KeyCode.Alpha1) && MyController.Ammo [0] > 0) {
 			CurrentWeapon = 0;
