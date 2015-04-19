@@ -17,12 +17,7 @@ public class Actor : MonoBehaviour
 	public GameObject CommiePrefab;
 	public GameObject CivilianPrefab;
 	public GameController MyController;
-
-	protected Transform CommieContainer;
-	protected Transform CivilianContainer;
-	protected Transform CapitalistContainer;
-	protected Transform ProjectileContainer;
-
+	
 	protected Animator animator;
 
 	// Use this for initialization
@@ -37,10 +32,6 @@ public class Actor : MonoBehaviour
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 
 		MyController = GameObject.FindObjectOfType<GameController> ();
-		CommieContainer = GameObject.Find ("Commies").transform;
-		CivilianContainer = GameObject.Find ("Civilians").transform;
-		CapitalistContainer = GameObject.Find ("Capitalists").transform;
-		ProjectileContainer = GameObject.Find ("Projectiles").transform;
 	}
 
 	protected void UpdateAnimation (float speed)
@@ -157,7 +148,7 @@ public class Actor : MonoBehaviour
 		}
 
 		projectileVelocity *= newProjectile.FireVelocity;
-		newProjectile.transform.parent = ProjectileContainer;
+		newProjectile.transform.parent = MyController.ProjectileContainer;
 		newProjectile.StartVelocity = projectileVelocity;
 		newProjectile.Source = this;
 	}
@@ -166,7 +157,7 @@ public class Actor : MonoBehaviour
 	{
 		GameObject newCommieObject = (GameObject)Instantiate (CommiePrefab, transform.position, Quaternion.identity);
 		Commie newCommie = newCommieObject.GetComponent<Commie> ();
-		newCommie.transform.parent = CommieContainer;
+		newCommie.transform.parent = MyController.CommieContainer;
 		newCommie.MyDirection = this.MyDirection;
 		newCommie.StartVelocity = this.RigidBody.velocity;
 		Destroy (this.gameObject);
@@ -176,7 +167,7 @@ public class Actor : MonoBehaviour
 	{
 		GameObject newCivilianObject = (GameObject)Instantiate (CivilianPrefab, transform.position, Quaternion.identity);
 		Civilian newCivilian = newCivilianObject.GetComponent<Civilian> ();
-		newCivilian.transform.parent = CivilianContainer;
+		newCivilian.transform.parent = MyController.CivilianContainer;
 		newCivilian.MyDirection = this.MyDirection;
 		newCivilian.StartVelocity = this.RigidBody.velocity;
 		Destroy (this.gameObject);

@@ -22,6 +22,15 @@ public class GameController : MonoBehaviour
 	public int[] Ammo = {100, -1, -1};
 	public Text[] AmmoText;
 	public Text ScoreText;
+	public Image WeaponSelectorImage;
+
+	public Vector3[] WeaponSelectorPositions;
+
+	public Transform CommieContainer;
+	public Transform CivilianContainer;
+	public Transform CapitalistContainer;
+	public Transform ProjectileContainer;
+	public Transform BureaucratContainer;
 
 	void Awake ()
 	{
@@ -36,12 +45,12 @@ public class GameController : MonoBehaviour
 
 	void Start ()
 	{
-		InitializeText ();
+		Initialize ();
 	}
 
 	void OnLevelWasLoaded (int level)
 	{
-		InitializeText ();
+		Initialize ();
 	}
 
 	void Update ()
@@ -57,12 +66,25 @@ public class GameController : MonoBehaviour
 		ScoreText.text = Score.ToString ();
 	}
 
-	void InitializeText ()
+	void Initialize ()
 	{
 		AmmoText = new Text[3];
 		AmmoText [0] = GameObject.Find ("LeafletValue").GetComponent<Text> ();
 		AmmoText [1] = GameObject.Find ("MoneyValue").GetComponent<Text> ();
 		AmmoText [2] = GameObject.Find ("MegaphoneValue").GetComponent<Text> ();
 		ScoreText = GameObject.Find ("ScoreValue").GetComponent<Text> ();
+		WeaponSelectorImage = GameObject.Find ("WeaponSelector").GetComponent<Image> ();
+
+		WeaponSelectorPositions = new Vector3[3];
+		WeaponSelectorPositions [0] = WeaponSelectorImage.rectTransform.localPosition;
+		;
+		WeaponSelectorPositions [1] = WeaponSelectorPositions [0] + new Vector3 (36, 0, 0);
+		WeaponSelectorPositions [2] = WeaponSelectorPositions [1] + new Vector3 (36, 0, 0);
+
+		CommieContainer = GameObject.Find ("Commies").transform;
+		CivilianContainer = GameObject.Find ("Civilians").transform;
+		CapitalistContainer = GameObject.Find ("Capitalists").transform;
+		ProjectileContainer = GameObject.Find ("Projectiles").transform;
+		BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
 	}
 }

@@ -80,14 +80,17 @@ public class PlayerController : Actor
 
 		if (Input.GetKey (KeyCode.Alpha1) && MyController.Ammo [0] > 0) {
 			CurrentWeapon = 0;
+			MyController.WeaponSelectorImage.rectTransform.localPosition = MyController.WeaponSelectorPositions [0];
 		}
 
 		if (Input.GetKey (KeyCode.Alpha2) && MyController.Ammo [1] > 0) {
 			CurrentWeapon = 1;
+			MyController.WeaponSelectorImage.rectTransform.localPosition = MyController.WeaponSelectorPositions [1];
 		}
 
 		if (Input.GetKey (KeyCode.Alpha3) && MyController.Ammo [2] > 0) {
 			CurrentWeapon = 2;
+			MyController.WeaponSelectorImage.rectTransform.localPosition = MyController.WeaponSelectorPositions [2];
 		}
 	}
 }
