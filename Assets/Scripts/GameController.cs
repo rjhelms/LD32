@@ -122,8 +122,8 @@ public class GameController : MonoBehaviour
 
 	void RunningUpdate ()
 	{
-		if (HitPoints > 32) {
-			HitPoints = 32;
+		if (HitPoints > 16) {
+			HitPoints = 16;
 		}
 		if (HitPoints <= 0) {
 			Debug.Log ("You died");
@@ -191,7 +191,7 @@ public class GameController : MonoBehaviour
 		}
 		CivilianText.text = CivilianCount.ToString ();
 		ScoreText.text = Score.ToString ();
-		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
+		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 4, 8);
 	}
 
 	public void Initialize ()

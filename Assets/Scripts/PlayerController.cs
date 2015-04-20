@@ -125,7 +125,7 @@ public class PlayerController : Actor
 				MyController.Ammo [2] += 5;
 				break;
 			case WeaponType.MEDKIT:
-				MyController.HitPoints += 8;
+				MyController.HitPoints += 4;
 				break;
 			}
 			MyController.PowerupCount++;
