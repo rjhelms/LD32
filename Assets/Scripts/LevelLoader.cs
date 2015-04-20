@@ -37,11 +37,6 @@ public class LevelLoader : MonoBehaviour
 		InitializeDescription (Description);
 	}
 
-	void OnLevelWasLoaded ()
-	{
-		Start ();
-	}
-
 	// Update is called once per frame
 	void Update ()
 	{

@@ -125,13 +125,13 @@ public class GameController : MonoBehaviour
 
 				if (Ammo [i] < 0)
 					Ammo [i] = 0;
-
-				AmmoText [i].text = (Ammo [i]).ToString ();
 			}
 		
-			CivilianText.text = CivilianCount.ToString ();
-			ScoreText.text = Score.ToString ();
-			HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
+			UpdateUI ();
+
+			if (CivilianCount <= 0) {
+				Win ();
+			}
 		}
 	}
 
@@ -167,7 +167,8 @@ public class GameController : MonoBehaviour
 			LevelTitleText.text = LevelTitle;
 			LevelDescriptionText.text = LevelDescription;
 			CountdownText.text = Countdown.ToString ();
-			CivilianText.text = CivilianCount.ToString ();
+
+			UpdateUI ();
 
 			nextCount = Time.unscaledTime + CountdownSpeed;
 
@@ -175,6 +176,16 @@ public class GameController : MonoBehaviour
 			Pause ();
 
 		}
+	}
+
+	void UpdateUI ()
+	{
+		for (int i = 0; i < Ammo.Length; i++) {
+			AmmoText [i].text = Ammo [i].ToString ();
+		}
+		CivilianText.text = CivilianCount.ToString ();
+		ScoreText.text = Score.ToString ();
+		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
 	}
 
 	public void Pause ()
@@ -196,6 +207,12 @@ public class GameController : MonoBehaviour
 		Ammo [1] -= 10;
 		Ammo [2] -= 10;
 		HitPoints -= 5;
+	}
+
+	public void Win ()
+	{
+		Debug.Log ("level won");
+		Pause ();
 	}
 	
 }

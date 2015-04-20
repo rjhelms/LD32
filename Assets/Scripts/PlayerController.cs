@@ -31,7 +31,7 @@ public class PlayerController : Actor
 		}
 
 		if (Input.GetKeyDown (KeyCode.R)) {
-			Application.LoadLevel ("scene2");
+			Application.LoadLevel ("Map1");
 		}
 
 	}
