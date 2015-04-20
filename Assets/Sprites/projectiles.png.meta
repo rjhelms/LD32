@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 09736b7573d98b74c9e9d4a1adb620ac
-timeCreated: 1429501621
+timeCreated: 1429549780
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -15,6 +15,7 @@ TextureImporter:
     21300016: projectiles_8
     21300018: projectiles_9
     21300020: projectiles_10
+    21300022: projectiles_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -164,6 +165,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: projectiles_11
+      rect:
+        serializedVersion: 2
+        x: 16
         y: 48
         width: 16
         height: 16

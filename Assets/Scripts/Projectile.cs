@@ -92,6 +92,7 @@ public class Projectile : MonoBehaviour
 								hitBureaucrat.Hit = true;
 								hitBureaucrat.BecomeCommie ();
 								MyController.Score += 200;
+								MyController.Ammo [2] += 2;
 								MyController.HitPoints += 1;
 							}
 

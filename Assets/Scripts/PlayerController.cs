@@ -123,6 +123,9 @@ public class PlayerController : Actor
 			case WeaponType.MEGAPHONE:
 				MyController.Ammo [2] += 5;
 				break;
+			case WeaponType.MEDKIT:
+				MyController.HitPoints += 8;
+				break;
 			}
 			MyController.PowerupCount++;
 			MyController.Score += 100;
