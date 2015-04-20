@@ -12,9 +12,7 @@ public class LevelLoader : MonoBehaviour
 	public Transform LevelParentTransform;
 	public Transform[] ActorParentTransforms;
 
-	public TextAsset Level;
-	public TextAsset Actors;
-	public TextAsset Description;
+	public Level[] LevelArray;
 	
 	public AstarPath Pathfinder;
 	public GameController MyController;
@@ -26,15 +24,15 @@ public class LevelLoader : MonoBehaviour
 		MyController.CivilianCount = 0;
 		MyController.OriginalPowerupCount = 0;
 
-		string[][] levelArray = ReadLevel (Level);
+		string[][] levelArray = ReadLevel (LevelArray [MyController.CurrentLevel].Map);
 		BuildLevel (levelArray);
 		Pathfinder.Scan ();
 		int levelSize = levelArray.Length;
 
-		string[][] actorArray = ReadLevel (Actors);
+		string[][] actorArray = ReadLevel (LevelArray [MyController.CurrentLevel].Actors);
 		BuildActors (actorArray, levelSize);
 
-		InitializeDescription (Description);
+		InitializeDescription (LevelArray [MyController.CurrentLevel].Description);
 		MyController.Initialize ();
 	}
 

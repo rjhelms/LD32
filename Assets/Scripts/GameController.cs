@@ -81,6 +81,8 @@ public class GameController : MonoBehaviour
 	public int PlayerConversions;
 	public int EnemyConversions;
 
+	public int CurrentLevel;
+
 	private float nextCount;
 	private float levelStartTime;
 	private float levelEndTime;
@@ -162,6 +164,7 @@ public class GameController : MonoBehaviour
 				}
 			} else if (winState == 5) {
 				if (Input.anyKey) {
+					CurrentLevel++;
 					Application.LoadLevel ("Map1");
 				}
 			}
