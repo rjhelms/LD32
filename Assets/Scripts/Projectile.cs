@@ -37,50 +37,44 @@ public class Projectile : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D coll)
 	{
-		bool validHit = true;
-
 		if (coll.gameObject.layer == LayerMask.NameToLayer ("Projectile") 
-			|| coll.gameObject.layer == LayerMask.NameToLayer ("Powerup")) {
-			validHit = false;
-		} else if (Source == null || Source.gameObject == null || coll.gameObject == null) {
-			validHit = false;
-		} else if (coll.gameObject == Source.gameObject) {
-			validHit = false;
-		}
-
-		if (validHit) {
-			if (coll.gameObject != null) {
-				try {
-					if ((TargetMask.value & 1 << coll.gameObject.layer) > 0 && MyController.Running) {
-						Debug.Log ("Target hit: " + coll.gameObject.name);
-
-						switch (Type) {
-						case WeaponType.LEAFLET:
-							LeafletHit (coll);
-							break;
-						case WeaponType.MONEY:
-							MoneyHit (coll);
-							break;
-						case WeaponType.MEGAPHONE:
-							MegaphoneHit (coll);
-							break;
-						case WeaponType.ENEMY_MONEY:
-							EnemyMoneyHit (coll);
-							break;
-						case WeaponType.ENEMY_MEGAPHONE:
-							EnemyMegaphoneHit (coll);
-							break;
-						}
-
-					}
-				} catch (NullReferenceException e) {
-					Debug.Log ("Got a null collision: " + e.ToString ());
-				}
-			}
-
-			Destroy (this.gameObject);
+			|| coll.gameObject.layer == LayerMask.NameToLayer ("Powerup")
+			|| Source == null || Source.gameObject == null || coll.gameObject == null 
+			|| coll.gameObject == Source.gameObject) {
 			return;
 		}
+
+		if (coll.gameObject != null) {
+			try {
+				if ((TargetMask.value & 1 << coll.gameObject.layer) > 0 && MyController.Running) {
+					Debug.Log ("Target hit: " + coll.gameObject.name);
+
+					switch (Type) {
+					case WeaponType.LEAFLET:
+						LeafletHit (coll);
+						break;
+					case WeaponType.MONEY:
+						MoneyHit (coll);
+						break;
+					case WeaponType.MEGAPHONE:
+						MegaphoneHit (coll);
+						break;
+					case WeaponType.ENEMY_MONEY:
+						EnemyMoneyHit (coll);
+						break;
+					case WeaponType.ENEMY_MEGAPHONE:
+						EnemyMegaphoneHit (coll);
+						break;
+					}
+
+				}
+			} catch (NullReferenceException e) {
+				Debug.Log ("Got a null collision: " + e.ToString ());
+			}
+		}
+
+		Destroy (this.gameObject);
+		return;
 	}
 
 	void LeafletHit (Collider2D coll)
