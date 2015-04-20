@@ -47,3 +47,9 @@ to do (nice)
 		- like leaflet (converts civilians), but in 8 directions - implemented
 		- if it hits a bureaucrat, they come after you - implemented
 
+to do, day 3:
+
+- level design & navigation
+- death / game over
+- title / instruction screen
+- music
