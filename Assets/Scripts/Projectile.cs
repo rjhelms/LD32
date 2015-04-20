@@ -149,7 +149,7 @@ public class Projectile : MonoBehaviour
 
 		PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
 
-		if (hitPlayer != null) {
+		if (hitPlayer != null && !hitPlayer.Dead) {
 			MyController.Ammo [1]++;
 			MyController.SFXSource.PlayOneShot (MyController.PowerUpSound);
 			return;
@@ -170,7 +170,7 @@ public class Projectile : MonoBehaviour
 
 		PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
 
-		if (hitPlayer != null) {
+		if (hitPlayer != null && !hitPlayer.Dead) {
 			MyController.HitPoints -= 1;
 			MyController.SFXSource.PlayOneShot (MyController.PlayerHitSound);
 			return;

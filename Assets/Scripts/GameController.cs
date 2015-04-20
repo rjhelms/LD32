@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
 	public bool Winning;
 
 	public int Score;
+	public int MaxHitpoints = 16;
 	public int HitPoints;
 	public int Lives;
 	public int[] Ammo = {100, -1, -1};
@@ -66,6 +67,7 @@ public class GameController : MonoBehaviour
 	public AudioClip CivilianSound;
 	public AudioClip EnragedSound;
 	public AudioClip Blip;
+	public AudioClip DieSound;
 
 	public string LevelTitle;
 	public string LevelDescription;
@@ -129,8 +131,7 @@ public class GameController : MonoBehaviour
 			HitPoints = 16;
 		}
 		if (HitPoints <= 0) {
-			Debug.Log ("You died");
-			Pause ();
+			Die ();
 		}
 		for (int i = 0; i < AmmoText.Length; i++) {
 			if (Ammo [i] > 99)
@@ -310,5 +311,12 @@ public class GameController : MonoBehaviour
 		Debug.Log ("level won, time: " + winTimeMinutes + ":" + winTimeSeconds.ToString ("D2"));
 		Pause ();
 	}
-	
+
+	public void Die ()
+	{
+		Lives--;
+		HitPoints = MaxHitpoints;
+		PlayerTransform.GetComponent<PlayerController> ().Die ();
+		SFXSource.PlayOneShot (DieSound);
+	}
 }

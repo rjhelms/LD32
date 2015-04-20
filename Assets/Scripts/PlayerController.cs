@@ -9,8 +9,15 @@ public class PlayerController : Actor
 	public int CurrentWeapon = 0;
 	public float FireRate;
 	public Camera MyCamera;
+	public bool Dead = false;
+	public float ReviveTime = 3f;
+	public float DeadFlashSpeed = 0.333f;
+
+	private float nextFlash;
+	private float nextRevive;
 
 	private float nextFire;
+
 
 	// Use this for initialization
 	void Start ()
@@ -22,23 +29,22 @@ public class PlayerController : Actor
 
 	void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.X)) {
-			if (MyController.Running) {
-				MyController.Pause ();
-			} else {
-				MyController.Resume ();
-			}
-		}
-
-		if (Input.GetKeyDown (KeyCode.R)) {
-			Application.LoadLevel ("Map1");
-		}
 
 	}
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
 		if (MyController.Running) {
+			if (Dead) {
+				if (Time.time > nextRevive) {
+					Dead = false;
+					mySprite.enabled = true;
+				} else if (Time.time > nextFlash) {
+					mySprite.enabled = !mySprite.enabled;
+					nextFlash = Time.time + DeadFlashSpeed;
+				}
+			}
+
 			Hit = false;
 			Moving = false;
 			Vector2 moveVector = new Vector2 ();
@@ -162,5 +168,13 @@ public class PlayerController : Actor
 	{
 		MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
 		                                               Mathf.Floor (transform.position.y) - 16, -10);
+	}
+
+	public void Die ()
+	{
+		Dead = true;
+		nextRevive = Time.time + ReviveTime;
+		nextFlash = Time.time + DeadFlashSpeed;
+		mySprite.enabled = false;
 	}
 }
