@@ -217,6 +217,8 @@ public class Actor : MonoBehaviour
 		if (mySprite.isVisible) {
 			MyController.SFXSource.PlayOneShot (MyController.CommieSound);
 		}
+
+		MyController.CivilianCount--;
 		Destroy (this.gameObject);
 	}
 	
@@ -230,6 +232,7 @@ public class Actor : MonoBehaviour
 		if (mySprite.isVisible) {
 			MyController.SFXSource.PlayOneShot (MyController.CivilianSound);
 		}
+		MyController.CivilianCount++;
 		Destroy (this.gameObject);
 	}
 }

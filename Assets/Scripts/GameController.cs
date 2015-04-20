@@ -18,14 +18,20 @@ public class GameController : MonoBehaviour
 	}
 
 	public bool Running;
+	public bool Starting;
 	public int Score;
 	public int HitPoints;
 	public int Lives;
 	public int[] Ammo = {100, -1, -1};
 	public Text[] AmmoText;
 	public Text ScoreText;
+	public Text LevelTitleText;
+	public Text LevelDescriptionText;
+	public Text CountdownText;
+	public Text CivilianText;
 	public Image WeaponSelectorImage;
 	public Image HealthBarImage;
+	public Image TitleImage;
 	public GameObject CivilianPrefab;
 	public GameObject CommiePrefab;
 	public GameObject CapitalistPrefab;
@@ -47,8 +53,21 @@ public class GameController : MonoBehaviour
 	public AudioClip CommieSound;
 	public AudioClip CivilianSound;
 	public AudioClip EnragedSound;
+	public AudioClip Blip;
+
+	public string LevelTitle;
+	public string LevelDescription;
 
 	public AudioSource SFXSource;
+
+	public int Countdown = 3;
+	public float CountdownSpeed = 1f;
+
+	public int CivilianCount;
+	public int PowerupCount;
+	public int OriginalPowerupCount;
+
+	private float nextCount;
 
 	void Awake ()
 	{
@@ -73,6 +92,24 @@ public class GameController : MonoBehaviour
 
 	void Update ()
 	{
+		if (Starting) {
+			if (Time.unscaledTime > nextCount) {	
+				Countdown--;
+				nextCount = Time.unscaledTime + CountdownSpeed;
+				CountdownText.text = Countdown.ToString ();
+				SFXSource.PlayOneShot (Blip);
+			}
+			if (Countdown < 0) {
+				Starting = false;
+				TitleImage.enabled = false;
+				LevelTitleText.enabled = false;
+				LevelDescriptionText.enabled = false;
+				CountdownText.enabled = false;
+				Resume ();
+			}
+			PlayerTransform.GetComponent<PlayerController> ().CentreCamera ();
+		}
+
 		if (Running) {
 			if (HitPoints > 32) {
 				HitPoints = 32;
@@ -92,6 +129,7 @@ public class GameController : MonoBehaviour
 				AmmoText [i].text = (Ammo [i]).ToString ();
 			}
 		
+			CivilianText.text = CivilianCount.ToString ();
 			ScoreText.text = Score.ToString ();
 			HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 2, 8);
 		}
@@ -99,27 +137,44 @@ public class GameController : MonoBehaviour
 
 	void Initialize ()
 	{
-		AmmoText = new Text[3];
-		AmmoText [0] = GameObject.Find ("LeafletValue").GetComponent<Text> ();
-		AmmoText [1] = GameObject.Find ("MoneyValue").GetComponent<Text> ();
-		AmmoText [2] = GameObject.Find ("MegaphoneValue").GetComponent<Text> ();
-		ScoreText = GameObject.Find ("ScoreValue").GetComponent<Text> ();
-		WeaponSelectorImage = GameObject.Find ("WeaponSelector").GetComponent<Image> ();
-		HealthBarImage = GameObject.Find ("HealthBar").GetComponent<Image> ();
+		if (Application.loadedLevelName.Contains ("Map")) {
+			AmmoText = new Text[3];
+			AmmoText [0] = GameObject.Find ("LeafletValue").GetComponent<Text> ();
+			AmmoText [1] = GameObject.Find ("MoneyValue").GetComponent<Text> ();
+			AmmoText [2] = GameObject.Find ("MegaphoneValue").GetComponent<Text> ();
+			ScoreText = GameObject.Find ("ScoreValue").GetComponent<Text> ();
+			LevelTitleText = GameObject.Find ("LevelTitleValue").GetComponent<Text> ();
+			LevelDescriptionText = GameObject.Find ("LevelDescriptionValue").GetComponent<Text> ();
+			CountdownText = GameObject.Find ("CountdownValue").GetComponent<Text> ();
+			CivilianText = GameObject.Find ("RemainingCivilianValue").GetComponent<Text> ();
+			WeaponSelectorImage = GameObject.Find ("WeaponSelector").GetComponent<Image> ();
+			HealthBarImage = GameObject.Find ("HealthBar").GetComponent<Image> ();
+			TitleImage = GameObject.Find ("TitleImage").GetComponent<Image> ();
+			WeaponSelectorPositions = new Vector3[3];
+			WeaponSelectorPositions [0] = WeaponSelectorImage.rectTransform.localPosition;
+			WeaponSelectorPositions [1] = WeaponSelectorPositions [0] + new Vector3 (36, 0, 0);
+			WeaponSelectorPositions [2] = WeaponSelectorPositions [1] + new Vector3 (36, 0, 0);
 
-		WeaponSelectorPositions = new Vector3[3];
-		WeaponSelectorPositions [0] = WeaponSelectorImage.rectTransform.localPosition;
-		WeaponSelectorPositions [1] = WeaponSelectorPositions [0] + new Vector3 (36, 0, 0);
-		WeaponSelectorPositions [2] = WeaponSelectorPositions [1] + new Vector3 (36, 0, 0);
+			CommieContainer = GameObject.Find ("Commies").transform;
+			CivilianContainer = GameObject.Find ("Civilians").transform;
+			CapitalistContainer = GameObject.Find ("Capitalists").transform;
+			ProjectileContainer = GameObject.Find ("Projectiles").transform;
+			BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
+			PlayerTransform = GameObject.Find ("Player(Clone)").transform;
 
-		CommieContainer = GameObject.Find ("Commies").transform;
-		CivilianContainer = GameObject.Find ("Civilians").transform;
-		CapitalistContainer = GameObject.Find ("Capitalists").transform;
-		ProjectileContainer = GameObject.Find ("Projectiles").transform;
-		BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
-		PlayerTransform = GameObject.Find ("Player(Clone)").transform;
+			SFXSource = GameObject.Find ("SoundFX").GetComponent<AudioSource> ();
 
-		SFXSource = GameObject.Find ("SoundFX").GetComponent<AudioSource> ();
+			LevelTitleText.text = LevelTitle;
+			LevelDescriptionText.text = LevelDescription;
+			CountdownText.text = Countdown.ToString ();
+			CivilianText.text = CivilianCount.ToString ();
+
+			nextCount = Time.unscaledTime + CountdownSpeed;
+
+			Starting = true;
+			Pause ();
+
+		}
 	}
 
 	public void Pause ()
@@ -142,4 +197,5 @@ public class GameController : MonoBehaviour
 		Ammo [2] -= 10;
 		HitPoints -= 5;
 	}
+	
 }

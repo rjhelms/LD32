@@ -31,7 +31,7 @@ public class PlayerController : Actor
 		}
 
 		if (Input.GetKeyDown (KeyCode.R)) {
-			Application.LoadLevel ("scene1");
+			Application.LoadLevel ("scene2");
 		}
 
 	}
@@ -52,11 +52,9 @@ public class PlayerController : Actor
 			}
 
 			UpdateAnimation (moveVector.magnitude * AnimationSpeedFactor);
-
 			RigidBody.velocity = moveVector;
+			CentreCamera ();
 
-			MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
-		                                           Mathf.Floor (transform.position.y) - 16, -10);
 		} else {
 			RigidBody.velocity = Vector2.zero;
 		}
@@ -110,5 +108,31 @@ public class PlayerController : Actor
 			CurrentWeapon = 2;
 			MyController.WeaponSelectorImage.rectTransform.localPosition = MyController.WeaponSelectorPositions [2];
 		}
+	}
+
+	void OnTriggerEnter2D (Collider2D coll)
+	{
+		if (coll.gameObject.layer == LayerMask.NameToLayer ("Powerup")) {
+			switch (coll.GetComponent<Powerup> ().Type) {
+			case WeaponType.LEAFLET:
+				MyController.Ammo [0] += 5;
+				break;
+			case WeaponType.MONEY:
+				MyController.Ammo [1] += 5;
+				break;
+			case WeaponType.MEGAPHONE:
+				MyController.Ammo [2] += 5;
+				break;
+			}
+
+			MyController.SFXSource.PlayOneShot (MyController.PowerUpSound);
+			Destroy (coll.gameObject);
+		}
+	}
+
+	public void CentreCamera ()
+	{
+		MyCamera.transform.position = new Vector3 (Mathf.Floor (transform.position.x), 
+		                                               Mathf.Floor (transform.position.y) - 16, -10);
 	}
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 21a57ee82f652604591b04a8d6136502
-timeCreated: 1429342465
+timeCreated: 1429498928
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -127,7 +127,7 @@ TextureImporter:
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: roads_6
+    - name: roads_7
       rect:
         serializedVersion: 2
         x: 0
@@ -137,7 +137,7 @@ TextureImporter:
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: roads_7
+    - name: roads_8
       rect:
         serializedVersion: 2
         x: 32
@@ -147,7 +147,7 @@ TextureImporter:
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: roads_8
+    - name: roads_9
       rect:
         serializedVersion: 2
         x: 64
@@ -157,7 +157,7 @@ TextureImporter:
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: roads_9
+    - name: roads_10
       rect:
         serializedVersion: 2
         x: 96
@@ -167,7 +167,7 @@ TextureImporter:
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: roads_10
+    - name: roads_11
       rect:
         serializedVersion: 2
         x: 128
@@ -177,11 +177,31 @@ TextureImporter:
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: roads_11
+    - name: roads_12
       rect:
         serializedVersion: 2
         x: 160
         y: 192
+        width: 32
+        height: 32
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: roads_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: roads_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 160
         width: 32
         height: 32
       alignment: 6

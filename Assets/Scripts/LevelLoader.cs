@@ -14,6 +14,8 @@ public class LevelLoader : MonoBehaviour
 
 	public TextAsset Level;
 	public TextAsset Actors;
+	public TextAsset Description;
+	
 	public AstarPath Pathfinder;
 	public GameController MyController;
 
@@ -21,14 +23,25 @@ public class LevelLoader : MonoBehaviour
 	void Start ()
 	{
 		MyController = GameObject.FindObjectOfType<GameController> ();
+		MyController.CivilianCount = 0;
+		MyController.PowerupCount = 0;
+
 		string[][] levelArray = ReadLevel (Level);
 		BuildLevel (levelArray);
 		Pathfinder.Scan ();
+		int levelSize = levelArray.Length;
 
 		string[][] actorArray = ReadLevel (Actors);
-		BuildActors (actorArray);
+		BuildActors (actorArray, levelSize);
+
+		InitializeDescription (Description);
 	}
-	
+
+	void OnLevelWasLoaded ()
+	{
+		Start ();
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -61,7 +74,7 @@ public class LevelLoader : MonoBehaviour
 						float ypos = (levelArray.Length - (i + 1)) * 32;
 
 						GameObject currentObject = (GameObject)Instantiate (LevelPrefabs [objectIndex], 
-						                                                   new Vector2 (xpos, ypos), 
+						                                                   new Vector3 (xpos, ypos, 1), 
 						                                                    Quaternion.identity);
 						currentObject.transform.parent = LevelParentTransform;
 					}
@@ -70,23 +83,36 @@ public class LevelLoader : MonoBehaviour
 		}
 	}
 
-	public void BuildActors (string[][] actorArray)
+	public void BuildActors (string[][] actorArray, int levelSize)
 	{
 		for (int i = 0; i < actorArray.Length; i++) {
 			string currentObjectString = actorArray [i] [0];
 			if (!string.IsNullOrEmpty (currentObjectString)) {
 				int objectIndex = Convert.ToInt32 (currentObjectString);
 				if (ActorPrefabs [objectIndex] != null) {
-					float xpos = Convert.ToInt32 (actorArray [i] [1]) * 32;
-					float ypos = Convert.ToInt32 (actorArray [i] [2]) * 32;
+					float xpos = Convert.ToSingle (actorArray [i] [1]) * 32;
+					float ypos = (levelSize - (Convert.ToSingle (actorArray [i] [2]))) * 32;
 
 					GameObject currentObject = (GameObject)Instantiate (ActorPrefabs [objectIndex],
 					                                                   new Vector2 (xpos, ypos),
 					                                                   Quaternion.identity);
+					if (objectIndex > 0 && objectIndex < 4)
+						MyController.CivilianCount++;
+					if (objectIndex >= 5)
+						MyController.PowerupCount++;
+
 					currentObject.transform.parent = ActorParentTransforms [objectIndex];
 				}
 			}
 		}
 	}
 
+	public void InitializeDescription (TextAsset input)
+	{
+		string text = input.text;
+		string[] lines = Regex.Split (text, "\r\n");
+
+		MyController.LevelTitle = lines [0];
+		MyController.LevelDescription = lines [1];
+	}
 }
