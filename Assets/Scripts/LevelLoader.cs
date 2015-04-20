@@ -27,7 +27,6 @@ public class LevelLoader : MonoBehaviour
 
 		string[][] actorArray = ReadLevel (Actors);
 		BuildActors (actorArray);
-		MyController.Initialize ();
 	}
 	
 	// Update is called once per frame

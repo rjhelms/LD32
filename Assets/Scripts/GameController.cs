@@ -117,7 +117,7 @@ public class GameController : MonoBehaviour
 		CapitalistContainer = GameObject.Find ("Capitalists").transform;
 		ProjectileContainer = GameObject.Find ("Projectiles").transform;
 		BureaucratContainer = GameObject.Find ("Bureaucrats").transform;
-		PlayerTransform = GameObject.Find ("Player").transform;
+		PlayerTransform = GameObject.Find ("Player(Clone)").transform;
 
 		SFXSource = GameObject.Find ("SoundFX").GetComponent<AudioSource> ();
 	}
