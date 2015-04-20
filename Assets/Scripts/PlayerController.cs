@@ -63,28 +63,50 @@ public class PlayerController : Actor
 
 	void ProccesInput (ref Vector2 moveVector)
 	{
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.Z)) {
+		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.Z) || Input.GetKey (KeyCode.Keypad8) 
+			|| Input.GetKey (KeyCode.UpArrow)) {
 			MyDirection = Direction.NORTH;
 			moveVector += new Vector2 (0, 1);
 			Moving = true;
 		}
-		if (Input.GetKey (KeyCode.D)) {
+		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.Keypad6) || Input.GetKey (KeyCode.RightArrow)) {
 			MyDirection = Direction.EAST;
 			moveVector += new Vector2 (1, 0);
 			Moving = true;
 		}
-		if (Input.GetKey (KeyCode.S)) {
+		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.Keypad2) || Input.GetKey (KeyCode.DownArrow)) {
 			MyDirection = Direction.SOUTH;
 			moveVector += new Vector2 (0, -1);
 			Moving = true;
 		}
-		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.Q)) {
+		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.Q) || Input.GetKey (KeyCode.Keypad4) 
+			|| Input.GetKey (KeyCode.LeftArrow)) {
 			MyDirection = Direction.WEST;
 			moveVector += new Vector2 (-1, 0);
 			Moving = true;
 		}
+		if (Input.GetKey (KeyCode.Keypad7) || Input.GetKey (KeyCode.Home)) {
+			MyDirection = Direction.WEST;
+			moveVector += new Vector2 (-1, 1);
+			Moving = true;
+		}
+		if (Input.GetKey (KeyCode.Keypad9) || Input.GetKey (KeyCode.PageUp)) {
+			MyDirection = Direction.EAST;
+			moveVector += new Vector2 (1, 1);
+			Moving = true;
+		}
+		if (Input.GetKey (KeyCode.Keypad3) || Input.GetKey (KeyCode.PageDown)) {
+			MyDirection = Direction.EAST;
+			moveVector += new Vector2 (1, -1);
+			Moving = true;
+		}
+		if (Input.GetKey (KeyCode.Keypad1) || Input.GetKey (KeyCode.End)) {
+			MyDirection = Direction.WEST;
+			moveVector += new Vector2 (-1, -1);
+			Moving = true;
+		}
 
-		if (Input.GetKey (KeyCode.Space)) {
+		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftControl) || Input.GetKey (KeyCode.RightControl)) {
 			if (Time.time > nextFire && MyController.Ammo [CurrentWeapon] > 0) {
 				FireProjectile (Projectiles [CurrentWeapon]);
 				MyController.Ammo [CurrentWeapon]--;
