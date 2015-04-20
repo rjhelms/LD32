@@ -6,6 +6,7 @@ public class Capitalist : Actor
 	public float CommieLookDistance = 64f;
 	public GameObject MyProjectile;
 	public float FireRate;
+	public int RandomFireChance = 1;
 
 	private float nextFire;
 	
@@ -51,7 +52,9 @@ public class Capitalist : Actor
 				}
 			}
 
-			if (seeCommie) {
+			bool randomFire = (Random.Range (0, 100) < RandomFireChance);
+
+			if (seeCommie || randomFire) {
 				FireProjectile (MyProjectile);
 				nextFire = Time.time + FireRate;
 				if (mySprite.isVisible) {
