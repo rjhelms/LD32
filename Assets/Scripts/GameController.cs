@@ -172,7 +172,12 @@ public class GameController : MonoBehaviour
 			if (winState == 5) {
 			if (Input.anyKey) {
 				CurrentLevel++;
-				Application.LoadLevel ("Map1");
+				if (CurrentLevel == GameObject.Find ("LevelLoader").GetComponent<LevelLoader> ().LevelArray.Length) {
+					Application.LoadLevel ("WinScreen");
+					Winning = false;
+				} else {
+					Application.LoadLevel ("Map1");
+				}
 			}
 		}
 	}
@@ -195,7 +200,8 @@ public class GameController : MonoBehaviour
 		}
 		CivilianText.text = CivilianCount.ToString ();
 		ScoreText.text = Score.ToString ();
-		LivesText.text = ": " + Lives.ToString ();
+		if (Lives >= 0)
+			LivesText.text = ": " + Lives.ToString ();
 		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 4, 8);
 	}
 
@@ -315,6 +321,9 @@ public class GameController : MonoBehaviour
 	public void Die ()
 	{
 		Lives--;
+		if (Lives < 0) {
+			Application.LoadLevel ("LoseScreen");
+		}
 		HitPoints = MaxHitpoints;
 		PlayerTransform.GetComponent<PlayerController> ().Die ();
 		SFXSource.PlayOneShot (DieSound);
