@@ -100,75 +100,87 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+	void StartingUpdate ()
+	{
+		if (Time.unscaledTime > nextCount) {
+			Countdown--;
+			nextCount = Time.unscaledTime + CountdownSpeed;
+			CountdownText.text = Countdown.ToString ();
+			SFXSource.PlayOneShot (Blip);
+		}
+		if (Countdown < 0) {
+			Starting = false;
+			TitleImage.enabled = false;
+			LevelTitleText.enabled = false;
+			LevelDescriptionText.enabled = false;
+			CountdownText.enabled = false;
+			Resume ();
+		}
+		if (PlayerTransform.GetComponent<PlayerController> ().MyCamera != null)
+			PlayerTransform.GetComponent<PlayerController> ().CentreCamera ();
+	}
+
+	void RunningUpdate ()
+	{
+		if (HitPoints > 32) {
+			HitPoints = 32;
+		}
+		if (HitPoints <= 0) {
+			Debug.Log ("You died");
+			Pause ();
+		}
+		for (int i = 0; i < AmmoText.Length; i++) {
+			if (Ammo [i] > 99)
+				Ammo [i] = 99;
+			if (Ammo [i] < 0)
+				Ammo [i] = 0;
+		}
+		UpdateUI ();
+		if (CivilianCount <= 0) {
+			Win ();
+		}
+	}
+
+	void WinningUpdate ()
+	{
+		if (Time.unscaledTime > nextCount && winState < 5) {
+			winState++;
+			nextCount = Time.unscaledTime + WinTickSpeed;
+			SFXSource.PlayOneShot (Blip);
+			switch (winState) {
+			case 1:
+				TimeText.enabled = true;
+				break;
+			case 2:
+				PowerupText.enabled = true;
+				break;
+			case 3:
+				PlayerConvertedText.enabled = true;
+				break;
+			case 4:
+				EnemyConvertedText.enabled = true;
+				break;
+			case 5:
+				AnyKeyText.enabled = true;
+				break;
+			}
+		} else
+			if (winState == 5) {
+			if (Input.anyKey) {
+				CurrentLevel++;
+				Application.LoadLevel ("Map1");
+			}
+		}
+	}
+
 	void Update ()
 	{
 		if (Starting) {
-			if (Time.unscaledTime > nextCount) {	
-				Countdown--;
-				nextCount = Time.unscaledTime + CountdownSpeed;
-				CountdownText.text = Countdown.ToString ();
-				SFXSource.PlayOneShot (Blip);
-			}
-			if (Countdown < 0) {
-				Starting = false;
-				TitleImage.enabled = false;
-				LevelTitleText.enabled = false;
-				LevelDescriptionText.enabled = false;
-				CountdownText.enabled = false;
-				Resume ();
-			}
-			if (PlayerTransform.GetComponent<PlayerController> ().MyCamera != null)
-				PlayerTransform.GetComponent<PlayerController> ().CentreCamera ();
+			StartingUpdate ();
 		} else if (Running) {
-			if (HitPoints > 32) {
-				HitPoints = 32;
-			}
-			if (HitPoints <= 0) {
-				Debug.Log ("You died");
-				Pause ();
-			}
-
-			for (int i = 0; i < AmmoText.Length; i++) {
-				if (Ammo [i] > 99)
-					Ammo [i] = 99;
-
-				if (Ammo [i] < 0)
-					Ammo [i] = 0;
-			}
-		
-			UpdateUI ();
-
-			if (CivilianCount <= 0) {
-				Win ();
-			}
+			RunningUpdate ();
 		} else if (Winning) {
-			if (Time.unscaledTime > nextCount && winState < 5) {
-				winState++;
-				nextCount = Time.unscaledTime + WinTickSpeed;
-				SFXSource.PlayOneShot (Blip);
-				switch (winState) {
-				case 1:
-					TimeText.enabled = true;
-					break;
-				case 2:
-					PowerupText.enabled = true;
-					break;
-				case 3:
-					PlayerConvertedText.enabled = true;
-					break;
-				case 4:
-					EnemyConvertedText.enabled = true;
-					break;
-				case 5:
-					AnyKeyText.enabled = true;
-					break;
-				}
-			} else if (winState == 5) {
-				if (Input.anyKey) {
-					CurrentLevel++;
-					Application.LoadLevel ("Map1");
-				}
-			}
+			WinningUpdate ();
 		}
 	}
 	

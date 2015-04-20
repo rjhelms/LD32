@@ -54,80 +54,24 @@ public class Projectile : MonoBehaviour
 					if ((TargetMask.value & 1 << coll.gameObject.layer) > 0 && MyController.Running) {
 						Debug.Log ("Target hit: " + coll.gameObject.name);
 
-						Civilian hitCivilian = null;
-						Capitalist hitCapitalist = null;
-						Commie hitCommie = null;
-						Bureaucrat hitBureaucrat = null;
-						PlayerController hitPlayer = null;
-
 						switch (Type) {
 						case WeaponType.LEAFLET:
-							hitCivilian = coll.GetComponent<Civilian> ();
+							LeafletHit (coll);
 							break;
 						case WeaponType.MONEY:
-							hitCapitalist = coll.GetComponent<Capitalist> ();
-							hitBureaucrat = coll.GetComponent<Bureaucrat> ();
+							MoneyHit (coll);
 							break;
 						case WeaponType.MEGAPHONE:
-							hitCivilian = coll.GetComponent<Civilian> ();
-							hitBureaucrat = coll.GetComponent<Bureaucrat> ();
+							MegaphoneHit (coll);
 							break;
 						case WeaponType.ENEMY_MONEY:
-							hitCommie = coll.GetComponent<Commie> ();
-							hitPlayer = coll.GetComponent<PlayerController> ();
+							EnemyMoneyHit (coll);
 							break;
 						case WeaponType.ENEMY_MEGAPHONE:
-							hitCommie = coll.GetComponent<Commie> ();
-							hitPlayer = coll.GetComponent<PlayerController> ();
+							EnemyMegaphoneHit (coll);
 							break;
 						}
 
-						if (hitBureaucrat != null && Type == WeaponType.MEGAPHONE) {
-					
-							hitBureaucrat.BecomeEnraged ();
-					
-						} else if (hitBureaucrat != null && Type == WeaponType.MONEY) {
-
-							if (!hitBureaucrat.Enraged) {
-								hitBureaucrat.Hit = true;
-								hitBureaucrat.BecomeCommie ();
-								MyController.Score += 200;
-								MyController.Ammo [2] += 2;
-								MyController.HitPoints += 1;
-							}
-
-						} else if (hitCapitalist != null && Type == WeaponType.MONEY) {
-					
-							hitCapitalist.Hit = true;
-							hitCapitalist.BecomeCommie ();
-							MyController.Score += 200;
-							MyController.HitPoints += 1;
-					
-						} else if (hitCivilian != null && (Type == WeaponType.LEAFLET || Type == WeaponType.MEGAPHONE)) {
-
-							hitCivilian.Hit = true;
-							hitCivilian.BecomeCommie ();
-							MyController.Score += 100;
-
-						} else if (hitCommie != null 
-							&& (Type == WeaponType.ENEMY_MONEY || Type == WeaponType.ENEMY_MEGAPHONE)) {
-
-							hitCommie.Hit = true;
-							hitCommie.BecomeCivilian ();
-							MyController.Score -= 100;
-							MyController.HitPoints -= 2;
-
-						} else if (hitPlayer != null && Type == WeaponType.ENEMY_MONEY) {
-
-							MyController.Ammo [1]++;
-							MyController.SFXSource.PlayOneShot (MyController.PowerUpSound);
-
-						} else if (hitPlayer != null && Type == WeaponType.ENEMY_MEGAPHONE) {
-				
-							MyController.HitPoints -= 1;
-							MyController.SFXSource.PlayOneShot (MyController.PlayerHitSound);
-				
-						}
 					}
 				} catch (NullReferenceException e) {
 					Debug.Log ("Got a null collision: " + e.ToString ());
@@ -138,5 +82,105 @@ public class Projectile : MonoBehaviour
 			return;
 		}
 	}
+
+	void LeafletHit (Collider2D coll)
+	{
+		Civilian hitCivilian = coll.GetComponent<Civilian> ();
+		if (hitCivilian != null) {
+			hitCivilian.Hit = true;
+			hitCivilian.BecomeCommie ();
+			MyController.Score += 100;
+			return;
+		}
+	}
+
+	void MoneyHit (Collider2D coll)
+	{
+		Capitalist hitCapitalist = coll.GetComponent<Capitalist> ();
+		if (hitCapitalist != null) {
+			hitCapitalist.Hit = true;
+			hitCapitalist.BecomeCommie ();
+			MyController.Score += 200;
+			MyController.HitPoints += 1;
+			return;
+		}
+
+		Bureaucrat hitBureaucrat = coll.GetComponent<Bureaucrat> ();
+
+		if (hitBureaucrat != null) {
+			
+			if (!hitBureaucrat.Enraged) {
+				hitBureaucrat.Hit = true;
+				hitBureaucrat.BecomeCommie ();
+				MyController.Score += 200;
+				MyController.Ammo [2] += 2;
+				MyController.HitPoints += 1;
+				return;
+			}
+		}
+	}
+
+	void MegaphoneHit (Collider2D coll)
+	{
+		Civilian hitCivilian = coll.GetComponent<Civilian> ();
+
+		if (hitCivilian != null) {
+			hitCivilian.Hit = true;
+			hitCivilian.BecomeCommie ();
+			MyController.Score += 100;
+			return;
+		}
+
+		Bureaucrat hitBureaucrat = coll.GetComponent<Bureaucrat> ();
+
+		if (hitBureaucrat != null) {
+			hitBureaucrat.BecomeEnraged ();
+			return;
+		}
+
+	}
+
+	void EnemyMoneyHit (Collider2D coll)
+	{
+		Commie hitCommie = coll.GetComponent<Commie> ();
+
+		if (hitCommie != null) {
+			hitCommie.Hit = true;
+			hitCommie.BecomeCivilian ();
+			MyController.Score -= 100;
+			MyController.HitPoints -= 2;
+			return;
+		}
+
+		PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
+
+		if (hitPlayer != null) {
+			MyController.Ammo [1]++;
+			MyController.SFXSource.PlayOneShot (MyController.PowerUpSound);
+			return;
+		}
+	}
+
+	void EnemyMegaphoneHit (Collider2D coll)
+	{
+		Commie hitCommie = coll.GetComponent<Commie> ();
+
+		if (hitCommie != null) {
+			hitCommie.Hit = true;
+			hitCommie.BecomeCivilian ();
+			MyController.Score -= 100;
+			MyController.HitPoints -= 2;
+			return;
+		}
+
+		PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
+
+		if (hitPlayer != null) {
+			MyController.HitPoints -= 1;
+			MyController.SFXSource.PlayOneShot (MyController.PlayerHitSound);
+			return;
+		}
+	}
+
 }
 

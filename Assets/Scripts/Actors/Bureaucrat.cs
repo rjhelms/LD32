@@ -78,6 +78,37 @@ public class Bureaucrat : Actor
 		}
 	}
 
+	bool PathNextStep ()
+	{
+		bool donePath = false;
+		currentWayPoint++;
+
+		if (currentWayPoint >= MyPath.vectorPath.Count) {
+			donePath = true;
+		} else {
+			float angle = Mathf.Atan2 (MyPath.vectorPath [currentWayPoint].y - transform.position.y, MyPath.vectorPath [currentWayPoint].x - transform.position.x) * 180 / Mathf.PI;
+			if (angle < 0) {
+				angle += 360;
+			}
+			Debug.Log ("angle: " + angle);
+			if (angle >= 315 || angle < 45) {
+				MyDirection = Direction.EAST;
+			} else
+				if (angle >= 45 && angle < 135) {
+				MyDirection = Direction.NORTH;
+			} else
+					if (angle >= 135 && angle < 225) {
+				MyDirection = Direction.WEST;
+			} else
+						if (angle >= 225 && angle < 315) {
+				MyDirection = Direction.SOUTH;
+			} else {
+				Debug.LogWarning ("Bureaucrat broke the universe.");
+			}
+		}
+		return donePath;
+	}
+
 	void EnragedUpdate ()
 	{
 		if (Time.time > calmTime) {
@@ -92,35 +123,7 @@ public class Bureaucrat : Actor
 
 		if (MyPath != null 
 			&& (Vector2.Distance (transform.position, MyPath.vectorPath [currentWayPoint]) < NextWayPointDistance)) {
-			currentWayPoint++;
-
-			if (currentWayPoint >= MyPath.vectorPath.Count) {
-				donePath = true;
-			} else {
-				float angle = Mathf.Atan2 (MyPath.vectorPath [currentWayPoint].y - transform.position.y, 
-				                           MyPath.vectorPath [currentWayPoint].x - transform.position.x) 
-					* 180 / Mathf.PI;
-
-				if (angle < 0) {
-					angle += 360;
-				}
-
-				Debug.Log ("angle: " + angle);
-
-				if (angle >= 315 || angle < 45) {
-					MyDirection = Direction.EAST;
-				} else if (angle >= 45 && angle < 135) {
-					MyDirection = Direction.NORTH;
-				} else if (angle >= 135 && angle < 225) {
-					MyDirection = Direction.WEST;
-				} else if (angle >= 225 && angle < 315) {
-					MyDirection = Direction.SOUTH;
-				} else {
-					Debug.LogWarning ("Bureaucrat broke the universe.");
-				}
-			}
-
-
+			donePath = PathNextStep ();
 		}
 
 		if (MyPath != null && !donePath) {
