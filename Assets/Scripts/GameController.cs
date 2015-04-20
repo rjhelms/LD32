@@ -200,9 +200,10 @@ public class GameController : MonoBehaviour
 		}
 		CivilianText.text = CivilianCount.ToString ();
 		ScoreText.text = Score.ToString ();
-		if (Lives >= 0)
+		if (Lives >= 0) {
 			LivesText.text = ": " + Lives.ToString ();
-		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 4, 8);
+			HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 4, 8);
+		}
 	}
 
 	public void Initialize ()

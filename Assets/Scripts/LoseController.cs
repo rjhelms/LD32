@@ -52,6 +52,7 @@ public class LoseController : MonoBehaviour
 		} else if (updateState == 3) {
 			if (Input.anyKey) {
 				Destroy (MyController.gameObject);
+				Destroy (GameObject.Find ("MusicSource");
 				Application.LoadLevel (0);
 			}
 		}
