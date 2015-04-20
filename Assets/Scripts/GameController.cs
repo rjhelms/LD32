@@ -73,6 +73,7 @@ public class GameController : MonoBehaviour
 
 	public int Countdown = 3;
 	public float CountdownSpeed = 1f;
+	public float WinTickSpeed = 0.5f;
 
 	public int CivilianCount;
 	public int PowerupCount;
@@ -143,7 +144,7 @@ public class GameController : MonoBehaviour
 		} else if (Winning) {
 			if (Time.unscaledTime > nextCount && winState < 5) {
 				winState++;
-				nextCount = Time.unscaledTime + CountdownSpeed;
+				nextCount = Time.unscaledTime + WinTickSpeed;
 				SFXSource.PlayOneShot (Blip);
 				switch (winState) {
 				case 1:
@@ -286,7 +287,7 @@ public class GameController : MonoBehaviour
 		LevelEndImage.enabled = true;
 		ClearText.enabled = true;
 
-		nextCount = Time.unscaledTime + CountdownSpeed;
+		nextCount = Time.unscaledTime + WinTickSpeed;
 		SFXSource.PlayOneShot (Blip);
 
 		Debug.Log ("level won, time: " + winTimeMinutes + ":" + winTimeSeconds.ToString ("D2"));
