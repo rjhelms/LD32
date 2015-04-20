@@ -39,6 +39,7 @@ public class PlayerController : Actor
 	void FixedUpdate ()
 	{
 		if (MyController.Running) {
+			Hit = false;
 			Moving = false;
 			Vector2 moveVector = new Vector2 ();
 
@@ -118,7 +119,7 @@ public class PlayerController : Actor
 				MyController.Ammo [0] += 5;
 				break;
 			case WeaponType.MONEY:
-				MyController.Ammo [1] += 5;
+				MyController.Ammo [1] += 10;
 				break;
 			case WeaponType.MEGAPHONE:
 				MyController.Ammo [2] += 5;

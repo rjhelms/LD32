@@ -169,9 +169,8 @@ public class Projectile : MonoBehaviour
 
 		PlayerController hitPlayer = coll.GetComponent<PlayerController> ();
 
-		if (hitPlayer != null && (!hitPlayer.Hit)) {
-			hitPlayer.Hit = true;
-			MyController.HitPoints -= 3;
+		if (hitPlayer != null) {
+			MyController.HitPoints -= 1;
 			MyController.SFXSource.PlayOneShot (MyController.PlayerHitSound);
 			return;
 		}
