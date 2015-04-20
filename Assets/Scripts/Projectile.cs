@@ -19,10 +19,11 @@ public class Projectile : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		MyController = Source.MyController;
 		RigidBody = this.GetComponent<Rigidbody2D> ();
+		StartVelocity *= (1 + (MyController.CurrentLevel * MyController.SpeedUpFactor));
 		RigidBody.velocity = StartVelocity;
 		startPosition = transform.position;
-		MyController = Source.MyController;
 	}
 	
 	// Update is called once per frame

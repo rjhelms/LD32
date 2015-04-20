@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
 	public int[] Ammo = {100, -1, -1};
 	public Text[] AmmoText;
 	public Text ScoreText;
+	public Text LivesText;
 	public Text LevelTitleText;
 	public Text LevelDescriptionText;
 	public Text CountdownText;
@@ -74,7 +75,8 @@ public class GameController : MonoBehaviour
 	public int Countdown = 3;
 	public float CountdownSpeed = 1f;
 	public float WinTickSpeed = 0.5f;
-
+	public float SpeedUpFactor = 0.1f;
+	
 	public int CivilianCount;
 	public int PowerupCount;
 	public int OriginalPowerupCount;
@@ -88,6 +90,7 @@ public class GameController : MonoBehaviour
 	private float levelStartTime;
 	private float levelEndTime;
 	private int winState = 0;
+
 
 	void Awake ()
 	{
@@ -191,6 +194,7 @@ public class GameController : MonoBehaviour
 		}
 		CivilianText.text = CivilianCount.ToString ();
 		ScoreText.text = Score.ToString ();
+		LivesText.text = ": " + Lives.ToString ();
 		HealthBarImage.rectTransform.sizeDelta = new Vector2 (HitPoints * 4, 8);
 	}
 
@@ -201,6 +205,7 @@ public class GameController : MonoBehaviour
 			AmmoText [0] = GameObject.Find ("LeafletValue").GetComponent<Text> ();
 			AmmoText [1] = GameObject.Find ("MoneyValue").GetComponent<Text> ();
 			AmmoText [2] = GameObject.Find ("MegaphoneValue").GetComponent<Text> ();
+			LivesText = GameObject.Find ("LivesValue").GetComponent<Text> ();
 			ScoreText = GameObject.Find ("ScoreValue").GetComponent<Text> ();
 			LevelTitleText = GameObject.Find ("LevelTitleValue").GetComponent<Text> ();
 			LevelDescriptionText = GameObject.Find ("LevelDescriptionValue").GetComponent<Text> ();

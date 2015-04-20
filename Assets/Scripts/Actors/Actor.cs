@@ -37,7 +37,8 @@ public class Actor : MonoBehaviour
 		RigidBody = this.GetComponent<Rigidbody2D> ();
 		MyController = GameObject.FindObjectOfType<GameController> ();
 		mySprite = this.GetComponent<SpriteRenderer> ();
-
+		MoveSpeed *= (1 + (MyController.CurrentLevel * MyController.SpeedUpFactor));
+		Debug.Log (MoveSpeed);
 		if (StartVelocity.sqrMagnitude == 0) {
 			MyDirection = (Direction)Random.Range (0, 4);
 		} else {
@@ -173,7 +174,7 @@ public class Actor : MonoBehaviour
 
 	protected void BaseMovement ()
 	{
-		if (RigidBody.velocity.sqrMagnitude < (MoveSpeed * MoveSpeed)) {
+		if (RigidBody.velocity.magnitude < MoveSpeed) {
 			MyDirection = GetOppositeDirection (MyDirection);
 		}
 
