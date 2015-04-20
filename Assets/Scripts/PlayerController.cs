@@ -124,6 +124,8 @@ public class PlayerController : Actor
 				MyController.Ammo [2] += 5;
 				break;
 			}
+			MyController.PowerupCount++;
+			MyController.Score += 100;
 
 			MyController.SFXSource.PlayOneShot (MyController.PowerUpSound);
 			Destroy (coll.gameObject);

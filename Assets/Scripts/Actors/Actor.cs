@@ -219,6 +219,7 @@ public class Actor : MonoBehaviour
 		}
 
 		MyController.CivilianCount--;
+		MyController.PlayerConversions++;
 		Destroy (this.gameObject);
 	}
 	
@@ -233,6 +234,7 @@ public class Actor : MonoBehaviour
 			MyController.SFXSource.PlayOneShot (MyController.CivilianSound);
 		}
 		MyController.CivilianCount++;
+		MyController.EnemyConversions++;
 		Destroy (this.gameObject);
 	}
 }

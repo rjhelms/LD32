@@ -24,7 +24,7 @@ public class LevelLoader : MonoBehaviour
 	{
 		MyController = GameObject.FindObjectOfType<GameController> ();
 		MyController.CivilianCount = 0;
-		MyController.PowerupCount = 0;
+		MyController.OriginalPowerupCount = 0;
 
 		string[][] levelArray = ReadLevel (Level);
 		BuildLevel (levelArray);
@@ -35,6 +35,7 @@ public class LevelLoader : MonoBehaviour
 		BuildActors (actorArray, levelSize);
 
 		InitializeDescription (Description);
+		MyController.Initialize ();
 	}
 
 	// Update is called once per frame
@@ -94,7 +95,7 @@ public class LevelLoader : MonoBehaviour
 					if (objectIndex > 0 && objectIndex < 4)
 						MyController.CivilianCount++;
 					if (objectIndex >= 5)
-						MyController.PowerupCount++;
+						MyController.OriginalPowerupCount++;
 
 					currentObject.transform.parent = ActorParentTransforms [objectIndex];
 				}
