@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0771e155135cb5f42baad35e9ad40b9a
-timeCreated: 1429548672
+timeCreated: 1429559482
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -14,6 +14,10 @@ TextureImporter:
     21300014: government_7
     21300016: government_8
     21300018: government_9
+    21300020: government_10
+    21300022: government_11
+    21300024: government_12
+    21300026: government_13
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -154,6 +158,46 @@ TextureImporter:
         serializedVersion: 2
         x: 128
         y: 160
+        width: 32
+        height: 32
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: government_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 32
+        height: 32
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: government_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 32
+        height: 32
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: government_12
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 32
+        height: 32
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: government_13
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
         width: 32
         height: 32
       alignment: 6

@@ -136,6 +136,8 @@ public class Bureaucrat : Actor
 			MyPath = null;
 			waitingForPath = true;
 			seeker.StartPath (transform.position, MyController.PlayerTransform.position, OnPathComplete);
+		} else if (waitingForPath) {
+			BaseMovement ();
 		}
 	}
 

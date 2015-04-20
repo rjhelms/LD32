@@ -276,10 +276,10 @@ public class GameController : MonoBehaviour
 	public void BureaucratHit ()
 	{
 		SFXSource.PlayOneShot (PlayerHitSound);
-		Score -= 100;
-		Ammo [0] -= 10;
-		Ammo [1] -= 10;
-		Ammo [2] -= 10;
+		Score -= 250;
+		Ammo [0] -= 5;
+		Ammo [1] -= 5;
+		Ammo [2] -= 5;
 		HitPoints -= 5;
 	}
 

@@ -146,7 +146,7 @@ public class Actor : MonoBehaviour
 		                                                          Quaternion.identity);
 		Projectile newProjectile = newProjectileObject.GetComponent<Projectile> ();
 		
-		if (RigidBody.velocity.magnitude > 0) {
+		if (RigidBody.velocity.sqrMagnitude > 1) {
 			projectileVelocity = RigidBody.velocity.normalized;
 		} else {
 			switch (MyDirection) {
