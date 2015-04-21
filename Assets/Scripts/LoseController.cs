@@ -34,6 +34,11 @@ public class LoseController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (Screen.fullScreen) {
+			Screen.fullScreen = false;
+			Screen.SetResolution (960, 600, false);
+		}
+
 		if (Time.time > nextUpdate && updateState < 3) {
 			nextUpdate = Time.time + UpdateSpeed;
 			updateState++;

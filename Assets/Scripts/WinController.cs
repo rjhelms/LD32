@@ -84,6 +84,11 @@ public class WinController : MonoBehaviour
 			}
 		}
 
+		if (Screen.fullScreen) {
+			Screen.fullScreen = false;
+			Screen.SetResolution (960, 600, false);
+		}
+
 		UpdateUI ();
 	}
 

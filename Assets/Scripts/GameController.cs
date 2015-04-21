@@ -183,6 +183,11 @@ public class GameController : MonoBehaviour
 
 	void Update ()
 	{
+		if (Screen.fullScreen) {
+			Screen.fullScreen = false;
+			Screen.SetResolution (960, 600, false);
+		}
+
 		if (Starting) {
 			StartingUpdate ();
 		} else if (Running) {

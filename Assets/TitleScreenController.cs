@@ -14,6 +14,7 @@ public class TitleScreenController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		Screen.SetResolution (960, 600, false);
 		// destroy the game object, if there's one here.
 		GameObject controller = GameObject.Find ("GameController");
 		if (controller != null) {
@@ -40,6 +41,11 @@ public class TitleScreenController : MonoBehaviour
 		}
 		if (ready & Input.anyKey) {
 			Application.LoadLevel ("Map1");
+		}
+
+		if (Screen.fullScreen) {
+			Screen.fullScreen = false;
+			Screen.SetResolution (960, 600, false);
 		}
 
 	}
