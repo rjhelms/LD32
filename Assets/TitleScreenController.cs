@@ -25,9 +25,8 @@ public class TitleScreenController : MonoBehaviour
 		ready = false;
 		PressAnyKeyText.enabled = false;
 
-		if (!MusicSource.GetComponent<AudioSource>().isPlaying)
-		{
-			MusicSource.GetComponent<AudioSource>().Play;
+		if (!MusicSource.GetComponent<AudioSource> ().isPlaying) {
+			MusicSource.GetComponent<AudioSource> ().Play ();
 		}
 	}
 	

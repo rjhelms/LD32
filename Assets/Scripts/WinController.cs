@@ -79,7 +79,7 @@ public class WinController : MonoBehaviour
 		} else if (updateState == 7) {
 			if (Input.anyKey) {
 				Destroy (MyController.gameObject);
-				Destroy (GameObject.Find ("MusicSource");
+				Destroy (GameObject.Find ("MusicSource"));
 				Application.LoadLevel (0);
 			}
 		}

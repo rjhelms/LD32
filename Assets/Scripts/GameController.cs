@@ -168,8 +168,7 @@ public class GameController : MonoBehaviour
 				AnyKeyText.enabled = true;
 				break;
 			}
-		} else
-			if (winState == 5) {
+		} else if (winState == 5) {
 			if (Input.anyKey) {
 				CurrentLevel++;
 				if (CurrentLevel == GameObject.Find ("LevelLoader").GetComponent<LevelLoader> ().LevelArray.Length) {
