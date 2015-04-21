@@ -23,8 +23,12 @@ public class TitleScreenController : MonoBehaviour
 		DontDestroyOnLoad (MusicSource);
 		readyToStartTime = Time.time + WaitTime;
 		ready = false;
-	
 		PressAnyKeyText.enabled = false;
+
+		if (!MusicSource.GetComponent<AudioSource>().isPlaying)
+		{
+			MusicSource.GetComponent<AudioSource>().Play;
+		}
 	}
 	
 	// Update is called once per frame
