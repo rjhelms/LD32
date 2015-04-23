@@ -90,7 +90,6 @@ public class Bureaucrat : Actor
 			if (angle < 0) {
 				angle += 360;
 			}
-			Debug.Log ("angle: " + angle);
 			if (angle >= 315 || angle < 45) {
 				MyDirection = Direction.EAST;
 			} else
@@ -132,7 +131,6 @@ public class Bureaucrat : Actor
 			UpdateAnimation (pathVector.magnitude * AnimationSpeedFactor);
 			RigidBody.velocity = pathVector;
 		} else if (!waitingForPath) {
-			Debug.Log ("Reached end of path, getting another");
 			MyPath = null;
 			waitingForPath = true;
 			seeker.StartPath (transform.position, MyController.PlayerTransform.position, OnPathComplete);
@@ -151,7 +149,6 @@ public class Bureaucrat : Actor
 
 		Enraged = true;
 		calmTime = Time.time + EnragedDuration;
-		Debug.Log ("grrr...");
 
 		if (!waitingForPath) {
 			MyPath = null;

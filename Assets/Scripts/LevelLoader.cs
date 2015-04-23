@@ -66,7 +66,6 @@ public class LevelLoader : MonoBehaviour
 					if (LevelPrefabs [objectIndex] != null) {
 						float xpos = j * 32;
 						float ypos = (levelArray.Length - (i + 1)) * 32;
-
 						GameObject currentObject = (GameObject)Instantiate (LevelPrefabs [objectIndex], 
 						                                                   new Vector3 (xpos, ypos, 1), 
 						                                                    Quaternion.identity);
@@ -86,7 +85,7 @@ public class LevelLoader : MonoBehaviour
 				if (ActorPrefabs [objectIndex] != null) {
 					float xpos = Convert.ToSingle (actorArray [i] [1]) * 32;
 					float ypos = (levelSize - (Convert.ToSingle (actorArray [i] [2]))) * 32;
-
+					Debug.Log (string.Format ("Level {0}, spawning {1} at {2}, {3}", MyController.CurrentLevel, ActorPrefabs [objectIndex].name, xpos, ypos));
 					GameObject currentObject = (GameObject)Instantiate (ActorPrefabs [objectIndex],
 					                                                   new Vector2 (xpos, ypos),
 					                                                   Quaternion.identity);

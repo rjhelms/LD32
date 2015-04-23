@@ -38,7 +38,6 @@ public class Actor : MonoBehaviour
 		MyController = GameObject.FindObjectOfType<GameController> ();
 		mySprite = this.GetComponent<SpriteRenderer> ();
 		MoveSpeed *= (1 + (MyController.CurrentLevel * MyController.SpeedUpFactor));
-		Debug.Log (MoveSpeed);
 		if (StartVelocity.sqrMagnitude == 0) {
 			MyDirection = (Direction)Random.Range (0, 4);
 		} else {

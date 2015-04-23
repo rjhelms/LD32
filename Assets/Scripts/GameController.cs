@@ -319,7 +319,6 @@ public class GameController : MonoBehaviour
 		nextCount = Time.unscaledTime + WinTickSpeed;
 		SFXSource.PlayOneShot (Blip);
 
-		Debug.Log ("level won, time: " + winTimeMinutes + ":" + winTimeSeconds.ToString ("D2"));
 		Pause ();
 	}
 

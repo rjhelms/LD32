@@ -48,7 +48,6 @@ public class Projectile : MonoBehaviour
 		if (coll.gameObject != null) {
 			try {
 				if ((TargetMask.value & 1 << coll.gameObject.layer) > 0 && MyController.Running) {
-					Debug.Log ("Target hit: " + coll.gameObject.name);
 
 					switch (Type) {
 					case WeaponType.LEAFLET:

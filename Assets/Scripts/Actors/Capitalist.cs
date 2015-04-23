@@ -46,7 +46,6 @@ public class Capitalist : Actor
 				if (item.collider.gameObject != this.gameObject) {
 					Commie hitCommie = item.collider.GetComponent<Commie> ();
 					if (hitCommie != null) {
-						Debug.Log ("Spotted commie");
 						seeCommie = true;
 					}
 				}
